@@ -1,19 +1,24 @@
-version: "3.3"
+version: "3.9"
 services:
-  app:
-    build: ./app
+  login:
+    build:
+      context: .
+      dockerfile: login/Dockerfile
     links:
       - mysql-db
     ports: 
       - "5000:5000"
+    volumes:
+      - ./login:/usr/src/app
+    stdin_open: true
+    tty: true
+    command: /usr/local/bin/gunicorn -w 2 -t 3600 -b :5000 app:app --reload
 
   mysql-db:
     image: mysql:8.0.32
     restart: always
     environment:
       MYSQL_DATABASE: 'users'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: 'password'
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
       - '3306:3306'

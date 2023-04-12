@@ -1,4 +1,4 @@
-# Store business logic for login
+# Store business logic for user
 
 import uuid
 import datetime

@@ -3,13 +3,13 @@ services:
   login:
     build:
       context: .
-      dockerfile: login/Dockerfile
+      dockerfile: Dockerfile
     links:
       - mysql-db
     ports: 
       - "5000:5000"
     volumes:
-      - ./login:/usr/src/app
+      - .:/usr/src/app
     stdin_open: true
     tty: true
     command: /usr/local/bin/gunicorn -w 2 -t 3600 -b :5000 app:app --reload

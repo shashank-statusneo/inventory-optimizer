@@ -17,7 +17,7 @@ ENV = os.getenv("FLASK_ENV") or "dev"
 DEBUG = os.getenv("DEBUG", True)
 
 app = create_app(ENV)
-app.register_blueprint(blueprint=blueprint, url_prefix="starter-kit")
+app.register_blueprint(blueprint=blueprint, url_prefix="/starter-kit")
 CORS(app)
 
 app.app_context().push()
@@ -28,7 +28,7 @@ logger.init_logger(level="DEBUG")
 logger = logging.getLogger("starter-kit")
 
 
-@app.route("starter-kit/ping", methods=["GET"])
+@app.route("/starter-kit/ping", methods=["GET"])
 def ping():
     response = {
         "success": True,

@@ -1,5 +1,6 @@
 from flask import request
 from flask_restx import Resource
+import logging
 
 from modules.login.service import Auth
 from modules.login.schema import LoginSchema
@@ -7,6 +8,9 @@ from typing import Dict, Tuple
 
 api = LoginSchema.api
 user_auth = LoginSchema.user_auth
+
+
+logger = logging.getLogger("starter-kit")
 
 
 @api.route("/login")
@@ -26,7 +30,7 @@ class UserLogin(Resource):
 @api.route("/logout")
 class LogoutAPI(Resource):
     """
-    Logout Resource
+    User Logout Resource
     """
 
     @api.doc("logout a user")

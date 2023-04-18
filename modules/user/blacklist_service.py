@@ -2,6 +2,7 @@ from . import db
 
 from modules.user.blacklist_model import BlacklistToken
 from typing import Dict, Tuple
+from utils.exceptions import DatabaseErrorException
 
 
 def save_token(token: str) -> Tuple[Dict[str, str], int]:
@@ -10,11 +11,8 @@ def save_token(token: str) -> Tuple[Dict[str, str], int]:
         # insert the token
         db.session.add(blacklist_token)
         db.session.commit()
-        response_object = {
-            "status": "success",
-            "message": "Successfully logged out.",
-        }
-        return response_object, 200
     except Exception as e:
-        response_object = {"status": "fail", "message": e}
-        return response_object, 200
+        raise DatabaseErrorException(
+            debug_message="Failed to blacklist Authorization Token",
+            error_message=f"Database Insertion Error: {e}",
+        )

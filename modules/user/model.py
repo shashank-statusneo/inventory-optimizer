@@ -6,6 +6,7 @@ from typing import Union
 import jwt
 from modules.user.config import Config
 from modules.user.blacklist_model import BlacklistToken
+from utils.exceptions import CustomException, AuthorizationException
 
 
 class User(db.Model):
@@ -58,17 +59,29 @@ class User(db.Model):
         :param auth_token:
         :return: integer|string
         """
+        print(auth_token)
         try:
             payload = jwt.decode(auth_token, Config.SECRET_KEY)
             is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
             if is_blacklisted_token:
-                return "Token blacklisted. Please log in again."
-            else:
-                return payload["sub"]
+                raise CustomException(
+                    debug_message="Please log in again.",
+                    http_code=403,
+                    error_message="Authorization Token is blacklisted.",
+                )
+            return payload["sub"]
         except jwt.ExpiredSignatureError:
-            return "Signature expired. Please log in again."
+            raise CustomException(
+                debug_message="Please log in again.",
+                http_code=403,
+                error_message="Signature expired.",
+            )
         except jwt.InvalidTokenError:
-            return "Invalid token. Please log in again."
+            raise AuthorizationException(
+                http_code=401,
+                debug_message="Invalid Token",
+                error_message="Please log in again.",
+            )
 
     def __repr__(self):
         return "<User '{}'>".format(self.username)

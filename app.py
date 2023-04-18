@@ -1,16 +1,18 @@
 import os
 import logging
+
 import traceback
 
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask import make_response
 from json import dumps
+from werkzeug.exceptions import HTTPException
 
 from routes import blueprint
 from modules.user import create_app, db
 from utils import logger
-from helpers.exceptions import APIException
+from utils.exceptions import APIException
 
 # for db migrations
 # from modules.user.model import User
@@ -23,12 +25,47 @@ app = create_app(ENV)
 app.register_blueprint(blueprint=blueprint, url_prefix="/starter-kit")
 CORS(app)
 
+
 app.app_context().push()
 
 migrate = Migrate(app, db)
 
 logger.init_logger(level="DEBUG")
 logger = logging.getLogger("starter-kit")
+
+app.config["PROPAGATE_EXCEPTIONS"] = True
+
+
+@app.after_request
+def after_request_func(response):
+    """
+    runs after the request is completed
+    add after request modifications here
+    to the response object
+    """
+
+    logger.info("after request is running")
+    return response
+
+
+@app.errorhandler(HTTPException)
+def handle_http_exception(err):
+    """Return JSON instead of HTML for HTTP errors."""
+    logger.info("HTTPException errorhandler is running!")
+    # start with the correct headers and status code from the error
+    response = err.get_response()
+    # replace the body with JSON
+    response.content_type = "application/json"
+    response.data = dumps(
+        {
+            "success": False,
+            "data": [],
+            "error": err.name,
+            "debug_message": err.description,
+        }
+    )
+
+    return response
 
 
 @app.errorhandler(APIException)

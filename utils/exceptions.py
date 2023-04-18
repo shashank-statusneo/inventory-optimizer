@@ -64,7 +64,6 @@ class APIException(Exception):
         super().__init__(self.message)
 
     def __get_subexception(self):
-
         try:
             starter_kit_exception = StarterKitExceptions[self.exception_name]
             if (
@@ -77,7 +76,6 @@ class APIException(Exception):
             raise UnknownErrorCodeException from err
 
     def __get_error_message(self):
-
         if self.http_code in HTTP_CODES:
             return HTTP_CODES[self.http_code]
         raise UnknownHttpCodeException

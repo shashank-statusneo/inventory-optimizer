@@ -54,11 +54,9 @@ class APIException(Exception):
         http_code: int,
         debug_message: str = None,
         message: str = None,
-        delay_in_seconds: int = None,
     ) -> None:
         self.http_code = http_code
         self.debug_message = debug_message
-        self.delay_in_seconds = delay_in_seconds
         self.exception_name = type(self).__name__
         self.starter_kit_code = self.__get_subexception()
         self.message = message if message else self.__get_error_message()

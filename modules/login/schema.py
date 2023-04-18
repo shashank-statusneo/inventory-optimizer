@@ -2,7 +2,7 @@ from flask_restx import Namespace, fields
 
 
 class LoginSchema:
-    api = Namespace("Login", description="Login related operations")
+    api = Namespace("auth", description="Login related operations")
     user_auth = api.model(
         "auth_details",
         {

@@ -16,9 +16,13 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = (
-        f"mysql://{username}:{password}@{host}:{port}/{database}"
-    )
+    # SQLALCHEMY_DATABASE_URI = (
+    #     f"mysql://{username}:{password}@{host}:{port}/{database}"
+    # )
+    SQLALCHEMY_BINDS = {
+        "user": f"mysql://{username}:{password}@{host}:{port}/{database}",
+        "app": f"mysql://{username}:{password}@{host}:{port}/{database}",
+    }
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 

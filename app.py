@@ -19,7 +19,6 @@ from utils.exceptions import APIException
 # from modules.user.blacklist_model import BlacklistToken
 
 ENV = os.getenv("FLASK_ENV") or "dev"
-DEBUG = os.getenv("DEBUG", True)
 
 app = create_app(ENV)
 app.register_blueprint(blueprint=blueprint, url_prefix="/starter-kit")
@@ -27,6 +26,8 @@ CORS(app)
 
 
 app.app_context().push()
+
+DEBUG = app.config.get("DEBUG")
 
 migrate = Migrate(app, db)
 

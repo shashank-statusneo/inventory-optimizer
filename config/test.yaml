@@ -1,0 +1,22 @@
+MYSQL:
+  USER:
+    host: sql12.freemysqlhosting.net
+    username: sql12612529
+    password: TZuKC2mhtc
+    port: 3306
+    database: sql12612529
+  APP_META:
+    host: sql12.freemysqlhosting.net
+    username: sql12612529
+    password: TZuKC2mhtc
+    port: 3306
+    database: sql12612529
+
+DEBUG: True
+
+SECRET_KEY: secret_key_123
+
+SQLALCHEMY_TRACK_MODIFICATIONS: True
+
+TESTING: True
+

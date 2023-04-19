@@ -45,8 +45,6 @@ class Auth:
 
         auth_token = User.encode_auth_token(user.id)
 
-        print(auth_token)
-
         response["data"] = {"Authorization": auth_token}
         response["message"] = "User Successfully Logged In"
 

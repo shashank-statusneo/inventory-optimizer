@@ -4,9 +4,9 @@ from . import db, flask_bcrypt
 import datetime
 from typing import Union
 import jwt
-from modules.user.config import Config
 from modules.user.blacklist_model import BlacklistToken
 from utils.exceptions import CustomException, AuthorizationException
+from flask import current_app as app
 
 
 class User(db.Model):
@@ -50,7 +50,9 @@ class User(db.Model):
                 "iat": datetime.datetime.utcnow(),
                 "sub": user_id,
             }
-            return jwt.encode(payload, Config.SECRET_KEY, algorithm="HS256")
+            return jwt.encode(
+                payload, app.config.get("SECRET_KEY"), algorithm="HS256"
+            )
         except Exception as e:
             return e
 
@@ -61,9 +63,8 @@ class User(db.Model):
         :param auth_token:
         :return: integer|string
         """
-        print(auth_token)
         try:
-            payload = jwt.decode(auth_token, Config.SECRET_KEY)
+            payload = jwt.decode(auth_token, app.config.get("SECRET_KEY"))
             is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
             if is_blacklisted_token:
                 raise CustomException(

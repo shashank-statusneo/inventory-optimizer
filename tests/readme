@@ -1,0 +1,24 @@
+To execute the tests containing a string in its name we can use the following syntax −
+
+pytest -k <substring> -v
+
+To run the marked tests, we can use the following syntax −
+
+pytest -m <markername> -v
+
+Parameterizing of a test is done to run the test against multiple sets of inputs. We can do this by using the following marker
+
+<!--
+@pytest.mark.parametrize
+@pytest.mark.parametrize("num, output",[(1,11),(2,22),(3,35),(4,44)])
+def test_multiplication_11(num, output):
+   assert 11*num == output
+-->
+
+<!--
+To Skip logging for a test failure
+@pytest.mark.xfail -->
+
+<!--
+To Skip a test
+@pytest.mark.skip -->

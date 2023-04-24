@@ -2,17 +2,25 @@ DATABASE:
   user:
     type: mysql
     host: sql12.freemysqlhosting.net
-    username: sql12612529
-    password: TZuKC2mhtc
+    username: sql12613695
+    password: lqdLFIXHtD
     port: 3306
-    database: sql12612529
-  app_meta:
-    type: mysql
-    host: sql12.freemysqlhosting.net
-    username: sql12612529
-    password: TZuKC2mhtc
-    port: 3306
-    database: sql12612529
+    database: sql12613695
+  binds:
+    user:
+      type: mysql
+      host: sql12.freemysqlhosting.net
+      username: sql12613695
+      password: lqdLFIXHtD
+      port: 3306
+      database: sql12613695
+    app_meta:
+      type: mysql
+      host: sql12.freemysqlhosting.net
+      username: sql12613695
+      password: IqdLFIXHtD
+      port: 3306
+      database: sql12613695
 
 DEBUG: True
 

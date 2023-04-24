@@ -8,7 +8,7 @@ class BlacklistToken(db.Model):
     """
 
     __tablename__ = "blacklist_tokens"
-    __bind_key__ = "user"
+    # __bind_key__ = "user"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     token = db.Column(db.String(500), unique=True, nullable=False)

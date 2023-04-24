@@ -7,10 +7,10 @@ class LoginSchema:
         "auth_details",
         {
             "email": fields.String(
-                required=True, description="The email address"
+                required=True, description="email address"
             ),
             "password": fields.String(
-                required=True, description="The user password"
+                required=True, description="user password"
             ),
         },
     )

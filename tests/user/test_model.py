@@ -8,7 +8,7 @@ from modules.user import db
 
 
 @mark.user
-def test_create_new_user(create_new_app):
+def test_create_new_user():
     """Testing
     Create a new user
 
@@ -16,8 +16,8 @@ def test_create_new_user(create_new_app):
         create_new_app (_type_): _description_
     """
     user = User(
-        email="shashank3@gmail.com",
-        username="shashank3",
+        email="shashank7@gmail.com",
+        username="shashank7",
         password="test",
         registered_on=datetime.datetime.utcnow(),
     )

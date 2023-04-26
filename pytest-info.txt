@@ -1,0 +1,36 @@
+- Explain what to test in a Flask app
+- Describe the differences between pytest and unittest
+- Write Flask-specific unit and functional test functions with pytest
+- Run tests with pytest
+- Create fixtures for initializing the state for test functions
+- Determine code coverage of your tests with coverage.py 
+
+-----------------------------------------------------------
+
+Tests can be considered at three levels:
+
+- Unit
+- Functional (or integration)
+- End-to-end
+
+Unit tests test the functionality of an individual unit of code isolated from its dependencies. 
+They are the first line of defense against errors and inconsistencies in your codebase. 
+They test from the inside out, from the programmer's point of view.
+
+Functional tests test multiple components of a software product to make sure the components are working together properly. 
+Typically, these tests focus on functionality that the user will be utilizing. 
+They test from the outside in, from the end user's point of view.
+
+-----------------------------------------------------------
+
+Unit Test - For example
+
+Database models (often defined in models.py)
+Utility functions that your view functions call
+Functional tests, meanwhile, should focus on how the view functions operate.
+
+Functional Test - For example:
+
+Nominal conditions (GET, POST, etc.) for a view function
+Invalid HTTP methods are handled properly for a view function
+Invalid data is passed to a view function

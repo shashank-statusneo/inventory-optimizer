@@ -4,41 +4,28 @@ from functools import wraps
 from flask import request
 
 
-from modules.login.service import Auth
+from modules.user.service import get_logged_in_user
 from typing import Callable
 
 
 def token_required(f) -> Callable:
+    """_summary_
+
+    Args:
+        f (_type_): _description_
+
+    Returns:
+        Callable: _description_
+    """
+
     @wraps(f)
     def decorated(*args, **kwargs):
-        data, status = Auth.get_logged_in_user(request)
-        token = data.get("data")
+        response, status = get_logged_in_user(request)
+        user_id = response.get("data", {}).get("user_id")
 
-        if not token:
-            return data, status
+        if not user_id:
+            return response, status
 
         return f(*args, **kwargs)
 
     return decorated
-
-
-def admin_token_required(f: Callable) -> Callable:
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        data, status = Auth.get_logged_in_user(request)
-        token = data.get("data")
-
-        if not token:
-            return data, status
-
-        admin = token.get("admin")
-        if not admin:
-            response_object = {
-                "status": "fail",
-                "message": "admin token required",
-            }
-            return response_object, 401
-
-        return f(*args, **kwargs)
-
-    return

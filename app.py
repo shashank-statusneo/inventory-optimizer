@@ -10,17 +10,17 @@ from json import dumps
 from werkzeug.exceptions import HTTPException
 
 from routes import blueprint
-from modules.user import create_app, db
+from modules import create_app, db
 from utils import logger
 from utils.exceptions import APIException
 
-# for db migrations
-# from modules.user.model import User
-# from modules.user.blacklist_model import BlacklistToken
+from config import config_by_name
 
 ENV = os.getenv("FLASK_ENV") or "dev"
+config = config_by_name[ENV]
 
-app = create_app(ENV)
+
+app = create_app(config)
 app.register_blueprint(blueprint=blueprint, url_prefix="/starter-kit")
 CORS(app)
 

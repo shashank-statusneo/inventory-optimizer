@@ -10,7 +10,6 @@ with open(os.path.join(basedir, ENV + ".yaml")) as config_file:
 
 
 class DevelopmentConfig:
-
     # App config
     DEBUG = config.get("DEBUG")
     SECRET_KEY = config.get("SECRET_KEY")
@@ -37,7 +36,6 @@ class DevelopmentConfig:
 
     binds_database = databases.get("binds")
     if binds_database:
-
         SQLALCHEMY_BINDS = {}
 
         for key, value in binds_database.items():

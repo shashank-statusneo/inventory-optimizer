@@ -1,19 +1,23 @@
 # Business logic for user
 
-import uuid
-import datetime
 import logging
+import uuid
+from typing import Dict
 
-from modules.user import db
-from modules.user.model import User
-from typing import Dict, Tuple
-from utils.exceptions import CustomException
+from utils.exceptions import (
+    AuthorizationException,
+    CustomException,
+    DatabaseErrorException,
+    ResourceDoesNotExistException,
+)
 
+from modules import db
+from modules.user.model import BlacklistToken, User
 
 logger = logging.getLogger("starter-kit")
 
 
-def save_new_user(data):
+def save_new_user(data: Dict[str, str]):
     """
     Creates a new user
 
@@ -55,51 +59,183 @@ def save_new_user(data):
         email=data["email"],
         username=data["username"],
         password=data["password"],
-        registered_on=datetime.datetime.utcnow(),
     )
     save_changes(new_user)
+    auth_token = new_user.encode_auth_token(new_user.id)
 
-    response["data"] = {"id": new_user.id, "public_id": new_user.public_id}
+    response["data"] = {
+        "id": new_user.id,
+        "public_id": new_user.public_id,
+        "auth_token": auth_token,
+    }
     response["message"] = "User Registered Successfully"
 
     return response, 201
 
 
-def get_all_users():
+def get_user_data(data: Dict[str, str]):
+    """_summary_
+
+    Args:
+        data (Dict[str, str]): _description_
     """
-    Get user details
+
+    logger.info("in get_user_data")
+
+    response = {"success": True, "data": []}
+
+    auth_token = data.get("Authorization")
+
+    if not auth_token:
+        raise AuthorizationException(
+            http_code=401,
+            debug_message="Please provide a valid authorization token",
+            error_message="User get status failed",
+        )
+
+    decode_response = User.decode_auth_token(auth_token)
+
+    if isinstance(decode_response, str):
+        raise CustomException(
+            http_code=401,
+            debug_message=decode_response,
+            error_message="User get status failed",
+        )
+
+    user = User.query.filter_by(id=decode_response).first()
+
+    response["data"] = {
+        "user_id": user.id,
+        "email": user.email,
+        "registered_on": str(user.registered_on),
+    }
+
+    return response, 200
+
+
+def login_existing_user(data: Dict[str, str]):
+    """_summary_
+
+    Args:
+        data (Dict[str, str]): _description_
+
+    Raises:
+        ResourceDoesNotExistException: _description_
+        AuthorizationException: _description_
+    """
+
+    logger.info("in login_existing_user")
+
+    response = {"success": True, "data": []}
+
+    # fetch the user data
+    user = User.query.filter_by(email=data.get("email")).first()
+
+    if not user or not user.id:
+        raise ResourceDoesNotExistException(
+            resource_name="user", resource_id=data.get("email")
+        )
+
+    if not user.is_password_correct(data.get("password")):
+        raise AuthorizationException(
+            http_code=401,
+            debug_message="Invalid Email or Password",
+            error_message="User Login Failed",
+        )
+
+    auth_token = user.encode_auth_token(user.id)
+    response["data"] = {"auth_token": auth_token}
+
+    response["message"] = "User Successfully Logged In"
+    return response, 200
+
+
+def logout_existing_user(data: Dict[str, str]):
+    """_summary_
+
+    Args:
+        data (Dict[str, str]): _description_
+    """
+
+    logger.info("in logout_existing_user")
+
+    response = {"success": True, "data": []}
+
+    auth_token = data.get("Authorization")
+
+    if not auth_token:
+        raise AuthorizationException(
+            http_code=401,
+            debug_message="Please provide a valid authorization token",
+            error_message="User get status failed",
+        )
+
+    decode_response = User.decode_auth_token(auth_token)
+
+    if isinstance(decode_response, str):
+        raise CustomException(
+            http_code=401,
+            debug_message=decode_response,
+            error_message="User get status failed",
+        )
+
+    # Blacklist Token
+    blacklist_token = BlacklistToken(token=auth_token)
+    save_changes(blacklist_token)
+
+    response["message"] = "User Successfully Logged out"
+    return response, 200
+
+
+def get_logged_in_user(data: Dict[str, str]):
+    """_summary_
+
+    Args:
+        data (Dict[str, str]): _description_
 
     Returns:
-        users (list): user details
+        _type_: _description_
     """
 
-    users = User.query.all()
-    return users
+    logger.info("in get_logged_in_user")
 
+    response = {"success": True, "data": []}
 
-def get_a_user(public_id):
-    return User.query.filter_by(public_id=public_id).first()
+    auth_token = data.headers.get("Authorization")
 
+    if not auth_token:
+        raise AuthorizationException(
+            http_code=401,
+            debug_message="Please provide a valid authorization token",
+            error_message="User get status failed",
+        )
 
-def generate_token(user: User) -> Tuple[Dict[str, str], int]:
-    try:
-        # generate the auth token
-        auth_token = User.encode_auth_token(user.id)
-        response_object = {
-            "status": "success",
-            "message": "Successfully registered.",
-            "Authorization": auth_token.decode(),
-        }
-        return response_object, 201
-    except Exception as e:
-        response_object = {
-            "status": "fail",
-            "message": "Some error occurred. Please try again.",
-            "debug_messages": f"{e}",
-        }
-        return response_object, 401
+    decode_response = User.decode_auth_token(auth_token)
+
+    if isinstance(decode_response, str):
+        raise CustomException(
+            http_code=401,
+            debug_message=decode_response,
+            error_message="User get status failed",
+        )
+
+    user = User.query.filter_by(id=decode_response).first()
+    response["data"] = (
+        {
+            "user_id": user.id,
+            "email": user.email,
+            "registered_on": str(user.registered_on),
+        },
+    )
+
+    return response, 200
 
 
 def save_changes(data):
-    db.session.add(data)
-    db.session.commit()
+    try:
+        db.session.add(data)
+        db.session.commit()
+    except Exception as e:
+        raise DatabaseErrorException(
+            debug_message=f"{e}", error_message="Databse Error Occured"
+        )

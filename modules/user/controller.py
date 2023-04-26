@@ -1,42 +1,96 @@
-#  user Routes
+import logging
 
 from flask import request
 from flask_restx import Resource
 
-from modules.user.schema import UserSchema
-from modules.user.service import save_new_user, get_all_users, get_a_user
+from modules.user.schema import LoginSchema, LogoutSchema, UserSchema
+from modules.user.service import (
+    get_user_data,
+    login_existing_user,
+    logout_existing_user,
+    save_new_user,
+)
 
-api = UserSchema.api
-_user = UserSchema.user
+user_api = UserSchema.api
+user_schema = UserSchema.schema
 
+login_api = LoginSchema.api
+login_schema = LoginSchema.schema
 
-@api.route("/")
-class UserList(Resource):
-    @api.doc("list_of_registered_users")
-    @api.marshal_list_with(_user, envelope="data")
-    def get(self):
-        """List all registered users"""
-        return get_all_users()
+logout_api = LogoutSchema.api
 
-    @api.response(201, "User successfully created.")
-    @api.doc("create a new user")
-    @api.expect(_user, validate=True)
-    def post(self):
-        """Creates a new User"""
-        data = request.json
-        return save_new_user(data=data)
+logger = logging.getLogger("starter-kit")
 
 
-@api.route("/<public_id>")
-@api.param("public_id", "The User identifier")
-@api.response(404, "User not found.")
+@user_api.route("/")
 class User(Resource):
-    @api.doc("get a user")
-    @api.marshal_with(_user)
-    def get(self, public_id):
-        """get a user given its identifier"""
-        user = get_a_user(public_id)
-        if not user:
-            api.abort(404)
-        else:
-            return user
+    """
+    Args:
+        Resource (_type_): _description_
+    """
+
+    def __init__(self, *args, **kwargs):
+        logger.info("in user main class init")
+        super().__init__(*args, **kwargs)
+
+    @user_api.expect(user_schema, validate=True)
+    def post(self):
+        """_summary_"""
+
+        logger.info("in User module post")
+
+        request_data = request.json
+        return save_new_user(request_data)
+
+    @user_api.expect()
+    def get(self):
+        """_summary_
+
+        Returns:
+            _type_: _description_
+        """
+
+        logger.info("in User module get")
+
+        request_headers = request.headers
+        return get_user_data(request_headers)
+
+
+@login_api.route("/")
+class Login(Resource):
+    """
+    Args:
+        Resource (_type_): _description_
+    """
+
+    def __init__(self, *args, **kwargs):
+        logger.info("in login main class init")
+        super().__init__(*args, **kwargs)
+
+    def post(self):
+        """_summary_"""
+
+        logger.info("in Login module post")
+
+        request_data = request.json
+        return login_existing_user(data=request_data)
+
+
+@logout_api.route("/")
+class Logout(Resource):
+    """
+    Args:
+        Resource (_type_): _description_
+    """
+
+    def __init__(self, *args, **kwargs):
+        logger.info("in Logout main class init")
+        super().__init__(*args, **kwargs)
+
+    def post(self):
+        """_summary_"""
+
+        logger.info("in Logout module post")
+
+        request_headers = request.headers
+        return logout_existing_user(request_headers)

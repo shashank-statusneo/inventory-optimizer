@@ -1,11 +1,10 @@
 # Store request helper functions
 
 from functools import wraps
-from flask import request
-
-
-from modules.user.service import get_logged_in_user
 from typing import Callable
+
+from flask import request
+from modules.user.service import get_logged_in_user
 
 
 def token_required(f) -> Callable:

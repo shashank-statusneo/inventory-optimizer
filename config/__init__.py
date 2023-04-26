@@ -9,10 +9,10 @@ with open(os.path.join(basedir, ENV + ".yaml")) as config_file:
     config = yaml.load(config_file, Loader=SafeLoader)
 
 
-class DevelopmentConfig:
-    # App config
+class Config(object):
     DEBUG = config.get("DEBUG")
     SECRET_KEY = config.get("SECRET_KEY")
+    PROPAGATE_EXCEPTIONS = config.get("PROPAGATE_EXCEPTIONS")
 
     # Database Config
     SQLALCHEMY_TRACK_MODIFICATIONS = config.get(
@@ -50,11 +50,15 @@ class DevelopmentConfig:
             ] = f"{type}://{username}:{password}@{host}:{port}/{database}"
 
 
-class TestingConfig:
+class DevelopmentConfig(Config):
     DEBUG = True
 
 
-class ProductionConfig:
+class TestingConfig(Config):
+    DEBUG = True
+
+
+class ProductionConfig(Config):
     DEBUG = False
 
 

@@ -1,20 +1,32 @@
-MYSQL:
-  USER:
-    host: sql12.freemysqlhosting.net
-    username: sql12612529
-    password: TZuKC2mhtc
+DATABASE:
+  user:
+    type: mysql
+    host: 127.0.0.2
+    username: root
+    password: password
     port: 3306
-    database: sql12612529
-  APP_META:
-    host: sql12.freemysqlhosting.net
-    username: sql12612529
-    password: TZuKC2mhtc
-    port: 3306
-    database: sql12612529
+    database: user
+  binds:
+    user:
+      type: mysql
+      host: 127.0.0.2
+      username: root
+      password: password
+      port: 3306
+      database: user
+    app_meta:
+      type: mysql
+      host: 127.0.0.2
+      username: root
+      password: password
+      port: 3306
+      database: app_meta
 
 DEBUG: True
+PROPAGATE_EXCEPTIONS: False
 
-SECRET_KEY: secret_key_123
+
+SECRET_KEY: \xf9'\xe4p(\xa9\x12\x1a!\x94\x8d\x1c\x99l\xc7\xb7e\xc7c\x86\x02MJ\xa1
 
 SQLALCHEMY_TRACK_MODIFICATIONS: True
 

@@ -1,8 +1,16 @@
+import os
+import traceback
+from json import dumps
+
 import sqlalchemy as sa
 from click import echo
+from config import config_by_name
 from flask import Flask
 from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from utils.exceptions import APIException
+from werkzeug.exceptions import HTTPException
 
 # -------------
 # Configuration
@@ -22,7 +30,13 @@ flask_bcrypt = Bcrypt()
 # ----------------------------
 
 
-def create_app(config):
+def create_app(env="dev"):
+    # get app config from env
+
+    ENV = os.getenv("FLASK_ENV") or env
+
+    config = config_by_name[ENV]
+
     # Create the Flask application
     app = Flask(__name__)
 
@@ -30,6 +44,7 @@ def create_app(config):
     app.config.from_object(config)
 
     initialize_extensions(app)
+    register_error_handlers(app)
     register_cli_commands(app)
 
     # Check if the database needs to be initialized
@@ -58,6 +73,60 @@ def initialize_extensions(app):
     # extension instance to bind it to the Flask application instance (app)
     db.init_app(app)
     flask_bcrypt.init_app(app)
+    CORS(app)
+
+
+def register_error_handlers(app):
+    # Since the application instance is now created, register each
+    # Error Handler with the Flask application instance (app)
+
+    @app.errorhandler(APIException)
+    def handle_custom_exception(error):
+        """Return a custom message and 400 status code"""
+
+        response = {
+            "success": False,
+            "data": [],
+            "error_code": error.starter_kit_code,
+            "error_message": error.message,
+            "debug_message": error.debug_message,
+        }
+
+        return response, error.http_code
+
+    @app.errorhandler(HTTPException)
+    def handle_http_exception(err):
+        """Return JSON instead of HTML for HTTP errors."""
+        # start with the correct headers and status code from the error
+        response = err.get_response()
+        # replace the body with JSON
+        response.content_type = "application/json"
+        response.data = dumps(
+            {
+                "success": False,
+                "data": [],
+                "error": err.name,
+                "debug_message": err.description,
+            }
+        )
+
+        return response
+
+    @app.errorhandler(Exception)
+    def internal_error(error):
+        """runs if any code level error has occured"""
+
+        # send proper error message rather than html broken response
+        trace_err = traceback.format_exc()
+
+        response = {
+            "success": False,
+            "data": [],
+            "error": "Internal Server Error",
+            "debug_message": str(error),
+            "traceback": trace_err,
+        }
+        return response, 500
 
 
 def register_cli_commands(app):

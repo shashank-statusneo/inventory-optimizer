@@ -4,7 +4,7 @@ from pytest import fixture
 from modules import create_app, db
 from routes import blueprint
 from flask_cors import CORS
-from modules.user.model import User
+from modules.users.model import Users
 import uuid
 
 # --------
@@ -14,7 +14,7 @@ import uuid
 
 @fixture(scope="module")
 def new_user():
-    user = User(
+    user = Users(
         email="test_user_4@gmail.com",
         username="test_user_4",
         password="test_password_4",
@@ -40,16 +40,16 @@ def test_client():
 @fixture(scope="module")
 def init_database():
     # Create the database and the database table
-    db.create_all()
+    db.create_all(bind_key="user")
 
     # Insert user data
-    user1 = User(
+    user1 = Users(
         email="test_user_1@gmail.com",
         username="test_user_1",
         password="test_password_1",
         public_id=str(uuid.uuid4()),
     )
-    user2 = User(
+    user2 = Users(
         email="test_user_2@gmail.com",
         username="test_user_2",
         password="test_password_2",
@@ -64,6 +64,6 @@ def init_database():
     yield  # this is where the testing happens!
 
     # delete users
-    User.query.filter_by(email="test_user_1@gmail.com").delete()
-    User.query.filter_by(email="test_user_2@gmail.com").delete()
+    Users.query.filter_by(email="test_user_1@gmail.com").delete()
+    Users.query.filter_by(email="test_user_2@gmail.com").delete()
     db.session.commit()

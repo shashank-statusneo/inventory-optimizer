@@ -22,18 +22,18 @@ class Config(object):
 
     databases = config.get("DATABASE")
 
-    user_database = databases.get("user")
+    # user_database = databases.get("user")
 
-    type = user_database.get("type", "mysql")
-    username = user_database.get("username", "root")
-    password = user_database.get("password", "")
-    host = user_database.get("host", "localhost")
-    port = user_database.get("port", 3306)
-    database = user_database.get("database", "")
+    # type = user_database.get("type", "mysql")
+    # username = user_database.get("username", "root")
+    # password = user_database.get("password", "")
+    # host = user_database.get("host", "localhost")
+    # port = user_database.get("port", 3306)
+    # database = user_database.get("database", "")
 
-    SQLALCHEMY_DATABASE_URI = (
-        f"{type}://{username}:{password}@{host}:{port}/{database}"
-    )
+    # SQLALCHEMY_DATABASE_URI = (
+    #     f"{type}://{username}:{password}@{host}:{port}/{database}"
+    # )
 
     binds_database = databases.get("binds")
     if binds_database:

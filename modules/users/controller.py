@@ -3,8 +3,8 @@ import logging
 from flask import request
 from flask_restx import Resource
 
-from modules.user.schema import LoginSchema, LogoutSchema, UserSchema
-from modules.user.service import (
+from modules.users.schema import LoginSchema, LogoutSchema, UserSchema
+from modules.users.service import (
     get_user_data,
     login_existing_user,
     logout_existing_user,

@@ -2,7 +2,6 @@ import os
 import traceback
 from json import dumps
 
-import sqlalchemy as sa
 from click import echo
 from config import config_by_name
 from flask import Flask
@@ -11,6 +10,9 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from utils.exceptions import APIException
 from werkzeug.exceptions import HTTPException
+
+from flask_migrate import Migrate
+
 
 # -------------
 # Configuration
@@ -23,6 +25,8 @@ from werkzeug.exceptions import HTTPException
 
 db = SQLAlchemy()
 flask_bcrypt = Bcrypt()
+# TODO: configure flask migrate
+migrate = Migrate()
 
 
 # ----------------------------
@@ -33,7 +37,7 @@ flask_bcrypt = Bcrypt()
 def create_app(env="dev"):
     # get app config from env
 
-    ENV = os.getenv("FLASK_ENV") or env
+    ENV = env or os.getenv("FLASK_ENV")
 
     config = config_by_name[ENV]
 
@@ -47,18 +51,8 @@ def create_app(env="dev"):
     register_error_handlers(app)
     register_cli_commands(app)
 
-    # Check if the database needs to be initialized
-    engine = sa.create_engine(app.config["SQLALCHEMY_DATABASE_URI"])
-    inspector = sa.inspect(engine)
-    if not inspector.has_table("user") or not inspector.has_table(
-        "blacklist_tokens"
-    ):
-        with app.app_context():
-            db.drop_all()
-            db.create_all()
-            app.logger.info("Initialized the database!")
-    else:
-        app.logger.info("Database already contains the user table.")
+    with app.app_context():
+        check_db_initialization(app)
 
     return app
 
@@ -71,7 +65,9 @@ def create_app(env="dev"):
 def initialize_extensions(app):
     # Since the application instance is now created, pass it to each Flask
     # extension instance to bind it to the Flask application instance (app)
+
     db.init_app(app)
+    migrate.init_app(app, db)
     flask_bcrypt.init_app(app)
     CORS(app)
 
@@ -136,3 +132,31 @@ def register_cli_commands(app):
         db.drop_all()
         db.create_all()
         echo("Initialized the database!")
+
+
+def check_db_initialization(app):
+    """_summary_
+
+    Args:
+        app (_type_): _description_
+    """
+    # Check if the database needs to be initialized
+
+    engines = db.engines
+
+    user_engine = engines.get("user")
+    app_meta_engine = engines.get("app_meta")
+
+    user_inspector = db.inspect(user_engine)
+    user_tables = user_inspector.get_table_names()
+
+    if ["users", "blacklist_tokens"] not in user_tables:
+        db.drop_all(bind_key="user")
+        db.create_all(bind_key="user")
+
+    app_meta_inspector = db.inspect(app_meta_engine)
+    app_meta_tables = app_meta_inspector.get_table_names()
+
+    if ["orders"] not in app_meta_tables:
+        db.drop_all(bind_key="app_meta")
+        db.create_all(bind_key="app_meta")

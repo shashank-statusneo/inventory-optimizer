@@ -6,7 +6,7 @@ from jwt import ExpiredSignatureError, InvalidTokenError, decode, encode
 from modules import db, flask_bcrypt
 
 
-class User(db.Model):
+class Users(db.Model):
     """
     Class that represents a user of the application
 
@@ -22,9 +22,9 @@ class User(db.Model):
     REMEMBER: Never store the plaintext password in a database!
     """
 
-    __tablename__ = "user"
+    __tablename__ = "users"
 
-    # __bind_key__ = "user"
+    __bind_key__ = "user"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
@@ -129,6 +129,8 @@ class BlacklistToken(db.Model):
 
     __tablename__ = "blacklist_tokens"
 
+    __bind_key__ = "user"
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     token = db.Column(db.String(500), unique=True, nullable=False)
     blacklisted_on = db.Column(db.DateTime, nullable=False)
@@ -148,3 +150,40 @@ class BlacklistToken(db.Model):
 
     def __repr__(self):
         return "<id: token: {}".format(self.token)
+
+
+# class Orders(db.Model):
+#     """
+#     Class that represents a order of the application
+
+#     The following attributes of a order are stored in this table:
+#         * id: database id of the order
+#         * user_id: databse id of the user
+#         * amount - amount of the order
+#         * order_date - date & time that the order
+
+#     """
+
+#     __tablename__ = "orders"
+
+#     __bind_key__ = "app_meta"
+
+#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     user_id = db.Column(
+#         db.Integer, db.ForeignKey("users.id"), autoincrement=True
+#     )
+#     order_date = db.Column(db.DateTime, nullable=False)
+#     amount = db.Column(db.Float, unique=False)
+
+#     def __init__(
+#         self,
+#         user_id: int,
+#         amount: int,
+#     ):
+#         """Create a new Order object using the user_id and amount"""
+#         self.user_id = user_id
+#         self.amount = amount
+#         self.order_date = datetime.datetime.utcnow()
+
+#     def __repr__(self):
+#         return f"<Order ID: {self.id}>"

@@ -4,10 +4,10 @@ from functools import wraps
 from typing import Callable
 
 from flask import request
-from modules.user.service import get_logged_in_user
+from modules.users.service import get_logged_in_user
 
 
-def token_required(f) -> Callable:
+def auth_required(f) -> Callable:
     """_summary_
 
     Args:
@@ -20,6 +20,7 @@ def token_required(f) -> Callable:
     @wraps(f)
     def decorated(*args, **kwargs):
         response, status = get_logged_in_user(request)
+
         user_id = response.get("data", {}).get("user_id")
 
         if not user_id:

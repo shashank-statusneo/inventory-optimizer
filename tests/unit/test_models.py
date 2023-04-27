@@ -1,7 +1,7 @@
 """
 This file (test_models.py) contains the unit tests for the user/models.py file.
 """
-from modules.user.model import User
+from modules.users.model import Users
 import uuid
 
 
@@ -12,7 +12,7 @@ def test_new_user():
     THEN check the email, password_hashed, authenticated,
     and active fields are defined correctly
     """
-    user = User(
+    user = Users(
         email="test_user_3@gmail.com",
         username="test_user_3",
         password="test_passwrord_3",

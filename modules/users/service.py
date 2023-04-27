@@ -12,7 +12,7 @@ from utils.exceptions import (
 )
 
 from modules import db
-from modules.user.model import BlacklistToken, User
+from modules.users.model import BlacklistToken, Users
 
 logger = logging.getLogger("starter-kit")
 
@@ -36,7 +36,7 @@ def save_new_user(data: Dict[str, str]):
 
     response = {"success": True, "data": []}
 
-    user = User.query.filter_by(email=data["email"]).first()
+    user = Users.query.filter_by(email=data["email"]).first()
 
     if user:
         raise CustomException(
@@ -45,7 +45,7 @@ def save_new_user(data: Dict[str, str]):
             error_message="User creation failed",
         )
 
-    user = User.query.filter_by(username=data["username"]).first()
+    user = Users.query.filter_by(username=data["username"]).first()
 
     if user:
         raise CustomException(
@@ -54,7 +54,7 @@ def save_new_user(data: Dict[str, str]):
             error_message="User creation failed",
         )
 
-    new_user = User(
+    new_user = Users(
         public_id=str(uuid.uuid4()),
         email=data["email"],
         username=data["username"],
@@ -93,7 +93,7 @@ def get_user_data(data: Dict[str, str]):
             error_message="User get status failed",
         )
 
-    decode_response = User.decode_auth_token(auth_token)
+    decode_response = Users.decode_auth_token(auth_token)
 
     if isinstance(decode_response, str):
         raise CustomException(
@@ -102,7 +102,7 @@ def get_user_data(data: Dict[str, str]):
             error_message="User get status failed",
         )
 
-    user = User.query.filter_by(id=decode_response).first()
+    user = Users.query.filter_by(id=decode_response).first()
 
     response["data"] = {
         "user_id": user.id,
@@ -129,7 +129,7 @@ def login_existing_user(data: Dict[str, str]):
     response = {"success": True, "data": []}
 
     # fetch the user data
-    user = User.query.filter_by(email=data.get("email")).first()
+    user = Users.query.filter_by(email=data.get("email")).first()
 
     if not user or not user.id:
         raise ResourceDoesNotExistException(
@@ -167,10 +167,10 @@ def logout_existing_user(data: Dict[str, str]):
         raise AuthorizationException(
             http_code=401,
             debug_message="Please provide a valid authorization token",
-            error_message="User get status failed",
+            error_message="Users get status failed",
         )
 
-    decode_response = User.decode_auth_token(auth_token)
+    decode_response = Users.decode_auth_token(auth_token)
 
     if isinstance(decode_response, str):
         raise CustomException(
@@ -207,26 +207,24 @@ def get_logged_in_user(data: Dict[str, str]):
         raise AuthorizationException(
             http_code=401,
             debug_message="Please provide a valid authorization token",
-            error_message="User get status failed",
+            error_message="User Authorization Failed",
         )
 
-    decode_response = User.decode_auth_token(auth_token)
+    decode_response = Users.decode_auth_token(auth_token)
 
     if isinstance(decode_response, str):
         raise CustomException(
             http_code=401,
             debug_message=decode_response,
-            error_message="User get status failed",
+            error_message="User Authorization Failed",
         )
 
-    user = User.query.filter_by(id=decode_response).first()
-    response["data"] = (
-        {
-            "user_id": user.id,
-            "email": user.email,
-            "registered_on": str(user.registered_on),
-        },
-    )
+    user = Users.query.filter_by(id=decode_response).first()
+    response["data"] = {
+        "user_id": user.id,
+        "email": user.email,
+        "registered_on": str(user.registered_on),
+    }
 
     return response, 200
 

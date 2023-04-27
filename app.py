@@ -2,30 +2,25 @@ import os
 import logging
 
 
-from flask_migrate import Migrate
 from flask import make_response
 from json import dumps
 
 from routes import blueprint
-from modules import create_app, db
+
+from modules import create_app
 from utils import logger
 
-from config import config_by_name
 
 ENV = os.getenv("FLASK_ENV") or "dev"
-config = config_by_name[ENV]
 
 
-app = create_app(config)
+app = create_app()
 app.register_blueprint(blueprint=blueprint)
 
 
 app.app_context().push()
 
 DEBUG = app.config.get("DEBUG")
-
-migrate = Migrate(app, db)
-
 logger.init_logger(level="DEBUG")
 logger = logging.getLogger("starter-kit")
 

@@ -51,23 +51,24 @@ class Users(db.Model):
         ).decode("utf-8")
         self.registered_on = datetime.datetime.utcnow()
 
-    def encode_auth_token(self, user_id):
-        """
-        Generates the Auth Token
-        :return: string
-        """
-        try:
-            payload = {
-                "exp": datetime.datetime.utcnow()
-                + datetime.timedelta(days=0, seconds=3600),
-                "iat": datetime.datetime.utcnow(),
-                "sub": user_id,
-            }
-            return encode(
-                payload, app.config.get("SECRET_KEY"), algorithm="HS256"
-            )
-        except Exception as e:
-            return e
+    # @staticmethod
+    # def encode_auth_token(user_id):
+    #     """
+    #     Generates the Auth Token
+    #     :return: string
+    #     """
+    #     try:
+    #         payload = {
+    #             "exp": datetime.datetime.utcnow()
+    #             + datetime.timedelta(days=0, seconds=3600),
+    #             "iat": datetime.datetime.utcnow(),
+    #             "sub": user_id,
+    #         }
+    #         return encode(
+    #             payload, app.config.get("SECRET_KEY"), algorithm="HS256"
+    #         )
+    #     except Exception as e:
+    #         return e
 
     @staticmethod
     def decode_auth_token(auth_token):
@@ -152,38 +153,40 @@ class BlacklistToken(db.Model):
         return "<id: token: {}".format(self.token)
 
 
-# class Orders(db.Model):
-#     """
-#     Class that represents a order of the application
+def encode_auth_token(user_id):
+    """
+    Generates the Auth Token
+    :return: string
+    """
+    try:
+        if not user_id:
+            raise Exception
+        payload = {
+            "exp": datetime.datetime.utcnow()
+            + datetime.timedelta(days=0, seconds=3600),
+            "iat": datetime.datetime.utcnow(),
+            "sub": user_id,
+        }
+        return encode(payload, app.config.get("SECRET_KEY"), algorithm="HS256")
+    except Exception as e:
+        return e
 
-#     The following attributes of a order are stored in this table:
-#         * id: database id of the order
-#         * user_id: databse id of the user
-#         * amount - amount of the order
-#         * order_date - date & time that the order
 
-#     """
-
-#     __tablename__ = "orders"
-
-#     __bind_key__ = "app_meta"
-
-#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     user_id = db.Column(
-#         db.Integer, db.ForeignKey("users.id"), autoincrement=True
-#     )
-#     order_date = db.Column(db.DateTime, nullable=False)
-#     amount = db.Column(db.Float, unique=False)
-
-#     def __init__(
-#         self,
-#         user_id: int,
-#         amount: int,
-#     ):
-#         """Create a new Order object using the user_id and amount"""
-#         self.user_id = user_id
-#         self.amount = amount
-#         self.order_date = datetime.datetime.utcnow()
-
-#     def __repr__(self):
-#         return f"<Order ID: {self.id}>"
+def decode_auth_token(auth_token):
+    """
+    Decodes the auth token
+    :param auth_token:
+    :return: integer|string
+    """
+    try:
+        payload = decode(
+            auth_token, app.config.get("SECRET_KEY"), algorithms="HS256"
+        )
+        is_blacklisted_token = BlacklistToken.check_blacklist(auth_token)
+        if is_blacklisted_token:
+            return "Token blacklisted. Please log in again."
+        return payload["sub"]
+    except ExpiredSignatureError:
+        return "Signature expired. Please log in again."
+    except InvalidTokenError:
+        return "Invalid token. Please log in again."

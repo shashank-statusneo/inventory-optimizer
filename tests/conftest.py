@@ -13,17 +13,22 @@ import uuid
 
 
 @fixture(scope="module")
-def new_user():
+def test_user(
+    email: str = "test_email@test.com",
+    username: str = "test_username",
+    password: str = "test_password",
+    public_id: str = str(uuid.uuid4()),
+):
     user = Users(
-        email="test_user_4@gmail.com",
-        username="test_user_4",
-        password="test_password_4",
-        public_id=str(uuid.uuid4()),
+        email=email,
+        username=username,
+        password=password,
+        public_id=public_id,
     )
     return user
 
 
-@fixture(scope="module")
+@fixture(scope="session")
 def test_client():
     # Create a Flask app configured for testing
     flask_app = create_app(env="test")
@@ -42,6 +47,7 @@ def init_database():
     # Create the database and the database table
     db.create_all(bind_key="user")
 
+    # TODO: add users from json file
     # Insert user data
     user1 = Users(
         email="test_user_1@gmail.com",

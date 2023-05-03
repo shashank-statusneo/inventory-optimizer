@@ -12,7 +12,7 @@ from utils.exceptions import (
 )
 
 from modules import db
-from modules.users.model import BlacklistToken, Users
+from modules.users.model import BlacklistToken, Users, encode_auth_token
 
 logger = logging.getLogger("starter-kit")
 
@@ -61,7 +61,7 @@ def save_new_user(data: Dict[str, str]):
         password=data["password"],
     )
     save_changes(new_user)
-    auth_token = new_user.encode_auth_token(new_user.id)
+    auth_token = encode_auth_token(new_user.id)
 
     response["data"] = {
         "id": new_user.id,

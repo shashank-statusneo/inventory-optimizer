@@ -5,6 +5,7 @@ from modules import create_app, db
 from routes import blueprint
 from flask_cors import CORS
 from modules.users.model import Users
+from json import loads
 import uuid
 
 # --------
@@ -12,7 +13,7 @@ import uuid
 # --------
 
 
-@fixture(scope="module")
+@fixture(scope="class")
 def test_user(
     email: str = "test_email@test.com",
     username: str = "test_username",
@@ -28,7 +29,7 @@ def test_user(
     return user
 
 
-@fixture(scope="session")
+@fixture(scope="session", autouse=True)
 def test_client():
     # Create a Flask app configured for testing
     flask_app = create_app(env="test")
@@ -72,4 +73,22 @@ def init_database():
     # delete users
     Users.query.filter_by(email="test_user_1@gmail.com").delete()
     Users.query.filter_by(email="test_user_2@gmail.com").delete()
+    db.session.commit()
+
+
+@fixture(scope="class")
+def import_users():
+    """
+    Create new users data from data/users.json
+    """
+    with open("tests/data/users.json", "r") as user_file:
+        users = loads(user_file.read())
+
+    # Create the database and the database table
+    db.create_all(bind_key="user")
+
+    # store users in Users table
+
+    for user in users:
+        db.session.add(Users(**user, public_id=str(uuid.uuid4())))
     db.session.commit()

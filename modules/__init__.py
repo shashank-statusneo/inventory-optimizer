@@ -11,7 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from utils.exceptions import APIException
 from werkzeug.exceptions import HTTPException
 
-from flask_migrate import Migrate
+from flask_migrate import Migrate, init, migrate, upgrade
 
 
 # -------------
@@ -26,7 +26,7 @@ from flask_migrate import Migrate
 db = SQLAlchemy()
 flask_bcrypt = Bcrypt()
 # TODO: configure flask migrate
-migrate = Migrate()
+migrate_extension = Migrate()
 
 
 # ----------------------------
@@ -34,25 +34,38 @@ migrate = Migrate()
 # ----------------------------
 
 
-def create_app(env="dev"):
+def create_app(env):
+    """_summary_
+
+    Args:
+        env (str, optional): App Environment. Defaults to "dev".
+
+    Returns:
+        flask instance: Returns a flask app
+    """
     # get app config from env
 
-    ENV = env or os.getenv("FLASK_ENV")
-
-    config = config_by_name[ENV]
+    config = config_by_name[env]
 
     # Create the Flask application
-    app = Flask(__name__)
+    app = Flask(__name__, instance_relative_config=True)
 
     # Configure the Flask Application
     app.config.from_object(config)
 
-    initialize_extensions(app)
+    # Add Exception Handlers
     register_error_handlers(app)
+
+    #  Add CLI commamnds
     register_cli_commands(app)
 
+    # Add flask extenstions
+    initialize_extensions(app)
+
     with app.app_context():
-        check_db_initialization(app)
+        # run migration
+
+        run_db_migration()
 
     return app
 
@@ -62,14 +75,10 @@ def create_app(env="dev"):
 # ----------------
 
 
-def initialize_extensions(app):
-    # Since the application instance is now created, pass it to each Flask
-    # extension instance to bind it to the Flask application instance (app)
-
-    db.init_app(app)
-    migrate.init_app(app, db)
-    flask_bcrypt.init_app(app)
-    CORS(app)
+def run_db_migration():
+    init()
+    migrate()
+    upgrade()
 
 
 def register_error_handlers(app):
@@ -134,29 +143,39 @@ def register_cli_commands(app):
         echo("Initialized the database!")
 
 
-def check_db_initialization(app):
-    """_summary_
+def initialize_extensions(app):
+    # Since the application instance is now created, pass it to each Flask
+    # extension instance to bind it to the Flask application instance (app)
 
-    Args:
-        app (_type_): _description_
-    """
-    # Check if the database needs to be initialized
+    db.init_app(app)
+    migrate_extension.init_app(app, db)
+    flask_bcrypt.init_app(app)
+    CORS(app)
 
-    engines = db.engines
 
-    user_engine = engines.get("user")
-    app_meta_engine = engines.get("app_meta")
+# def check_db_initialization():
+#     """_summary_
 
-    user_inspector = db.inspect(user_engine)
-    user_tables = user_inspector.get_table_names()
+#     Args:
+#         app (_type_): _description_
+#     """
+#     # Check if the database needs to be initialized
 
-    if ["users", "blacklist_tokens"] not in user_tables:
-        db.drop_all(bind_key="user")
-        db.create_all(bind_key="user")
+#     engines = db.engines
 
-    app_meta_inspector = db.inspect(app_meta_engine)
-    app_meta_tables = app_meta_inspector.get_table_names()
+#     user_engine = engines.get("user")
+#     app_meta_engine = engines.get("app_meta")
 
-    if ["orders"] not in app_meta_tables:
-        db.drop_all(bind_key="app_meta")
-        db.create_all(bind_key="app_meta")
+#     user_inspector = db.inspect(user_engine)
+#     user_tables = user_inspector.get_table_names()
+
+#     if ["users", "blacklist_tokens"] not in user_tables:
+#         db.drop_all(bind_key="user")
+#         db.create_all(bind_key="user")
+
+#     app_meta_inspector = db.inspect(app_meta_engine)
+#     app_meta_tables = app_meta_inspector.get_table_names()
+
+#     if ["orders"] not in app_meta_tables:
+#         db.drop_all(bind_key="app_meta")
+#         db.create_all(bind_key="app_meta")

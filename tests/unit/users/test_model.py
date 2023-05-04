@@ -3,13 +3,14 @@ This file (test_model.py) contains the unit
 tests for the modules/users/model.py file.
 """
 from modules.users.model import Users, encode_auth_token, decode_auth_token
-from pytest import mark
+import pytest
 
 
-@mark.usefixtures("import_users")
+@pytest.mark.usefixtures("import_users")
 class TestUser:
     """User Tests"""
 
+    @pytest.mark.user_model
     def test_user_data(self):
         """
         GIVEN
@@ -28,6 +29,7 @@ class TestUser:
         total_users = Users.query.count()
         assert total_users == 3
 
+    @pytest.mark.user_model
     def test_new_user(self, test_user):
         """
         GIVEN a User model
@@ -43,6 +45,7 @@ class TestUser:
         assert test_user.is_active
         assert not test_user.is_anonymous
 
+    @pytest.mark.user_model
     def test_user_id(self, test_user):
         """
         GIVEN a User model
@@ -53,6 +56,7 @@ class TestUser:
         user_id = test_user.get_id()
         assert isinstance(user_id, str)
 
+    @pytest.mark.user_model
     def test_encode_decode_auth_token(self, test_user, mocker):
         """
         GIVEN a User model

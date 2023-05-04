@@ -1,26 +1,26 @@
 DATABASE:
-  user:
+  starter_kit:
     type: mysql
     host: 127.0.0.1
     username: root
     password: password
     port: 3306
-    database: user
-  binds:
-    user:
-      type: mysql
-      host: 127.0.0.1
-      username: root
-      password: password
-      port: 3306
-      database: user
-    app_meta:
-      type: mysql
-      host: 127.0.0.1
-      username: root
-      password: password
-      port: 3306
-      database: app_meta
+    database: starter_kit
+  # binds:
+  #   starter_kit:
+  #     type: mysql
+  #     host: 127.0.0.1
+  #     username: root
+  #     password: password
+  #     port: 3306
+  #     database: starter_kit
+  #   app_meta:
+  #     type: mysql
+  #     host: 127.0.0.1
+  #     username: root
+  #     password: password
+  #     port: 3306
+  #     database: starter_kit
 
 DEBUG: True
 PROPAGATE_EXCEPTIONS: True

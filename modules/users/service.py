@@ -143,7 +143,7 @@ def login_existing_user(data: Dict[str, str]):
             error_message="User Login Failed",
         )
 
-    auth_token = user.encode_auth_token(user.id)
+    auth_token = encode_auth_token(user.id)
     response["data"] = {"auth_token": auth_token}
 
     response["message"] = "User Successfully Logged In"

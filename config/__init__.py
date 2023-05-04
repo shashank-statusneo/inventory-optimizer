@@ -22,33 +22,34 @@ class Config(object):
 
     databases = config.get("DATABASE")
 
-    # user_database = databases.get("user")
+    starter_kit_database = databases.get("starter_kit")
 
-    # type = user_database.get("type", "mysql")
-    # username = user_database.get("username", "root")
-    # password = user_database.get("password", "")
-    # host = user_database.get("host", "localhost")
-    # port = user_database.get("port", 3306)
-    # database = user_database.get("database", "")
+    type = starter_kit_database.get("type", "mysql")
+    username = starter_kit_database.get("username", "root")
+    password = starter_kit_database.get("password", "")
+    host = starter_kit_database.get("host", "localhost")
+    port = starter_kit_database.get("port", 3306)
+    database = starter_kit_database.get("database", "")
 
-    # SQLALCHEMY_DATABASE_URI = (
-    #     f"{type}://{username}:{password}@{host}:{port}/{database}"
-    # )
+    SQLALCHEMY_DATABASE_URI = (
+        f"{type}://{username}:{password}@{host}:{port}/{database}"
+    )
 
-    binds_database = databases.get("binds")
-    if binds_database:
-        SQLALCHEMY_BINDS = {}
 
-        for key, value in binds_database.items():
-            type = value.get("type", "mysql")
-            username = value.get("username", "root")
-            password = value.get("password", "")
-            host = value.get("host", "localhost")
-            port = value.get("port", 3306)
-            database = value.get("database", "")
-            SQLALCHEMY_BINDS[
-                key
-            ] = f"{type}://{username}:{password}@{host}:{port}/{database}"
+#     binds_database = databases.get("binds")
+#     if binds_database:
+#         SQLALCHEMY_BINDS = {}
+
+#         for key, value in binds_database.items():
+#             type = value.get("type", "mysql")
+#             username = value.get("username", "root")
+#             password = value.get("password", "")
+#             host = value.get("host", "localhost")
+#             port = value.get("port", 3306)
+#             database = value.get("database", "")
+#             SQLALCHEMY_BINDS[
+#                 key
+#             ] = f"{type}://{username}:{password}@{host}:{port}/{database}"
 
 
 class DevelopmentConfig(Config):

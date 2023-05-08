@@ -24,7 +24,7 @@ class Users(db.Model):
 
     __tablename__ = "users"
 
-    # __bind_key__ = "user"
+    # __bind_key__ = "app_auth"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
@@ -130,7 +130,7 @@ class BlacklistToken(db.Model):
 
     __tablename__ = "blacklist_tokens"
 
-    # __bind_key__ = "user"
+    # __bind_key__ = "app_auth"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     token = db.Column(db.String(500), unique=True, nullable=False)

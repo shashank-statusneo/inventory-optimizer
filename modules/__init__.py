@@ -11,7 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from utils.exceptions import APIException
 from werkzeug.exceptions import HTTPException
 
-from flask_migrate import Migrate, init, migrate, upgrade
+from flask_migrate import Migrate, init, migrate, upgrade, stamp
 
 
 # -------------
@@ -46,6 +46,7 @@ def create_app(env):
     # get app config from env
 
     config = config_by_name[env]
+    print(config)
 
     # Create the Flask application
     app = Flask(__name__, instance_relative_config=True)
@@ -76,7 +77,7 @@ def create_app(env):
 
 
 def run_db_migration():
-    init()
+    init(multidb=True)
     migrate()
     upgrade()
 

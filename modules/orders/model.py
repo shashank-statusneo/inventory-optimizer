@@ -18,7 +18,7 @@ class Orders(db.Model):
 
     __tablename__ = "orders"
 
-    # __bind_key__ = "app_meta"
+    __bind_key__ = "app_meta"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # TODO: update user_id as foreign key

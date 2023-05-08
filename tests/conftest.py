@@ -29,7 +29,7 @@ def test_user(
     return user
 
 
-@fixture(scope="class")
+@fixture(scope="session")
 def app():
     # Create a Flask app configured for testing
     flask_app = create_app(env="test")
@@ -46,7 +46,7 @@ def app():
     db.drop_all()
 
 
-@fixture(scope="class")
+@fixture(scope="session")
 def client(app):
     return app.test_client()
 

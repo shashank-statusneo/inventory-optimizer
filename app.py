@@ -10,6 +10,7 @@ from modules import create_app
 from utils import logger
 from routes import blueprint
 
+
 ENV = os.getenv("FLASK_ENV") or "dev"
 # Get Flask App
 app = create_app(ENV)
@@ -17,9 +18,6 @@ app = create_app(ENV)
 # Register module blueprints
 app.register_blueprint(blueprint=blueprint)
 
-
-# Push app in app context
-app.app_context().push()
 
 logger.init_logger(level="DEBUG")
 logger = logging.getLogger("starter-kit")

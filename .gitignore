@@ -3,5 +3,4 @@ __pycache__/
 .vscode/
 .coverage
 .env
-migrations/
 .pytest_cache/

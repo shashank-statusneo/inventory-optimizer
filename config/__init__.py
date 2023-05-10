@@ -50,8 +50,6 @@ class Config(object):
                 key
             ] = f"{type}://{username}:{password}@{host}:{port}/{database}"
 
-    print(SQLALCHEMY_BINDS)
-
 
 class DevelopmentConfig(Config):
     DEBUG = True

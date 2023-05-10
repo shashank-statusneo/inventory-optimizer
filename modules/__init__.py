@@ -1,4 +1,4 @@
-import os
+import click
 import traceback
 from json import dumps
 
@@ -46,7 +46,6 @@ def create_app(env):
     # get app config from env
 
     config = config_by_name[env]
-    print(config)
 
     # Create the Flask application
     app = Flask(__name__, instance_relative_config=True)
@@ -63,23 +62,12 @@ def create_app(env):
     # Add flask extenstions
     initialize_extensions(app)
 
-    with app.app_context():
-        # run migration
-
-        run_db_migration()
-
     return app
 
 
 # ----------------
 # Helper Functions
 # ----------------
-
-
-def run_db_migration():
-    init(multidb=True)
-    migrate()
-    upgrade()
 
 
 def register_error_handlers(app):
@@ -137,11 +125,41 @@ def register_error_handlers(app):
 
 def register_cli_commands(app):
     @app.cli.command("init_db")
-    def initialize_database():
-        """Initialize the database."""
-        db.drop_all()
-        db.create_all()
-        echo("Initialized the database!")
+    def initialize_db():
+        """Initializing database migrations."""
+        echo("Initializing database migrations!")
+        init(multidb=True)
+
+    @app.cli.command("migrate_db")
+    @click.option(
+        "--db",
+        required=True,
+        type=click.Choice(["app_auth", "app_meta"], case_sensitive=True),
+        help="Name of database that has to be migrated",
+    )
+    @click.option(
+        "--m",
+        required=True,
+        type=str,
+        help="Migration message",
+    )
+    def migrate_db(db, m):
+        """Prepare database migration scripts."""
+        echo("Preparing database migration scripts!")
+        stamp(tag=db)
+        migrate(message=m, x_arg=db)
+
+    @app.cli.command("upgrade_db")
+    @click.option(
+        "--db",
+        required=True,
+        type=click.Choice(["app_auth", "app_meta"], case_sensitive=True),
+        help="Name of database that has to be migrated",
+    )
+    def upgrade_db(db):
+        """Upgrading database migrations."""
+        echo("Upgrading database migrations!")
+        upgrade(x_arg=db)
 
 
 def initialize_extensions(app):
@@ -152,31 +170,3 @@ def initialize_extensions(app):
     migrate_extension.init_app(app, db)
     flask_bcrypt.init_app(app)
     CORS(app)
-
-
-# def check_db_initialization():
-#     """_summary_
-
-#     Args:
-#         app (_type_): _description_
-#     """
-#     # Check if the database needs to be initialized
-
-#     engines = db.engines
-
-#     user_engine = engines.get("user")
-#     app_meta_engine = engines.get("app_meta")
-
-#     user_inspector = db.inspect(user_engine)
-#     user_tables = user_inspector.get_table_names()
-
-#     if ["users", "blacklist_tokens"] not in user_tables:
-#         db.drop_all(bind_key="user")
-#         db.create_all(bind_key="user")
-
-#     app_meta_inspector = db.inspect(app_meta_engine)
-#     app_meta_tables = app_meta_inspector.get_table_names()
-
-#     if ["orders"] not in app_meta_tables:
-#         db.drop_all(bind_key="app_meta")
-#         db.create_all(bind_key="app_meta")

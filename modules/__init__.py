@@ -138,16 +138,25 @@ def register_cli_commands(app):
         help="Name of database that has to be migrated",
     )
     @click.option(
+        "--t",
+        required=False,
+        type=str,
+        help="Migration Table",
+    )
+    @click.option(
         "--m",
         required=True,
         type=str,
         help="Migration message",
     )
-    def migrate_db(db, m):
+    def migrate_db(db, m, t):
         """Prepare database migration scripts."""
         echo("Preparing database migration scripts!")
         stamp(tag=db)
-        migrate(message=m, x_arg=db)
+        x_arg = [db]
+        if t:
+            x_arg.append(t)
+        migrate(message=m, x_arg=x_arg)
 
     @app.cli.command("upgrade_db")
     @click.option(

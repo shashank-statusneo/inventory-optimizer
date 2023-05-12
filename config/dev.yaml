@@ -2,16 +2,20 @@ DATABASE:
   app_auth:
     type: mysql
     host: 127.0.0.1
-    username: root
-    password: password
+    # username: root
+    username: migrate_app_auth
+    # password: password
+    password: auth_password
     port: 3306
     database: app_auth
   binds:
     app_auth:
       type: mysql
       host: 127.0.0.1
-      username: root
-      password: password
+      # username: root
+      username: migrate_app_auth
+      # password: password
+      password: auth_password
       port: 3306
       database: app_auth
     app_meta:
@@ -34,10 +38,14 @@ PROPAGATE_EXCEPTIONS: True
 # Database: starter_kit
 # Username: root_user_9634
 
-
 SECRET_KEY: \xf9'\xe4p(\xa9\x12\x1a!\x94\x8d\x1c\x99l\xc7\xb7e\xc7c\x86\x02MJ\xa0
 
 SQLALCHEMY_TRACK_MODIFICATIONS: True
 
 TESTING: True
 
+# CREATE USER 'migrate_app_auth'@'localhost'
+# 	IDENTIFIED BY 'auth_password';
+# GRANT ALL
+# 	ON app_auth.*
+#     TO 'migrate_app_auth'@'localhost';

@@ -18,6 +18,30 @@ fileConfig(config.config_file_name)
 logger = logging.getLogger("alembic.env")
 
 
+# def include_name(name, type, _parent_names):
+#     logger.info("==================")
+#     logger.info(f"{type=}")
+#     logger.info(f"{name=}")
+#     logger.info(f"{_parent_names=}")
+
+
+# def include_object_func(object, name, type_, reflected, compared_to):
+#     logger.info(f"{object=}")
+#     logger.info(f"{type_=}")
+#     logger.info(f"{name=}")
+#     logger.info(f"{reflected=}")
+#     logger.info(f"{compared_to=}")
+
+#     if type_ == "table":
+#         if name == "users":
+#             logger.info("true")
+#             return True
+#         else:
+#             logger.info("false")
+#             return False
+#     return True
+
+
 def get_engine(bind_key=None):
     try:
         # this works with Flask-SQLAlchemy<3 and Alchemical
@@ -152,16 +176,22 @@ def run_migrations_online():
     x_args = context.get_x_argument()
 
     if not x_args:
+        # database stamp operation
         tag_args = context.get_tag_argument()
         migrate_db = tag_args
     else:
+        # database migration operation
         migrate_db = x_args[0]
+        # if len(x_args) > 1:
+        #     migrate_table = x_args[1]
 
     # clear all other database connections except migrate_db
 
     engine_conn = engines.get(migrate_db)
     engines.clear()
     engines[migrate_db] = engine_conn
+
+    logger.info(f"{engines=}")
 
     for name, rec in engines.items():
         engine = rec["engine"]
@@ -182,6 +212,7 @@ def run_migrations_online():
                 target_metadata=get_metadata(name),
                 process_revision_directives=process_revision_directives,
                 **current_app.extensions["migrate"].configure_args,
+                # include_object=include_object_func,
             )
             context.run_migrations(engine_name=name)
 

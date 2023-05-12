@@ -24,7 +24,7 @@ class Users(db.Model):
 
     __tablename__ = "users"
 
-    # __bind_key__ = "app_auth"
+    __bind_key__ = "app_auth"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
@@ -32,6 +32,7 @@ class Users(db.Model):
     public_id = db.Column(db.String(100), unique=True)
     username = db.Column(db.String(60), unique=True)
     password_hashed = db.Column(db.String(100))
+    new_column = db.Column(db.Float)
 
     def __init__(
         self,
@@ -130,11 +131,12 @@ class BlacklistToken(db.Model):
 
     __tablename__ = "blacklist_tokens"
 
-    # __bind_key__ = "app_auth"
+    __bind_key__ = "app_auth"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     token = db.Column(db.String(500), unique=True, nullable=False)
     blacklisted_on = db.Column(db.DateTime, nullable=False)
+    new_col = db.Column(db.Integer, nullable=True)
 
     def __init__(self, token):
         self.token = token

@@ -22,14 +22,14 @@ class Config(object):
 
     databases = config.get("DATABASE")
 
-    app_auth_db = databases.get("app_auth")
+    inventory_optimizer_db = databases.get("inventory_optimizer")
 
-    type = app_auth_db.get("type", "mysql")
-    username = app_auth_db.get("username", "root")
-    password = app_auth_db.get("password", "")
-    host = app_auth_db.get("host", "localhost")
-    port = app_auth_db.get("port", 3306)
-    database = app_auth_db.get("database", "")
+    type = inventory_optimizer_db.get("type", "mysql")
+    username = inventory_optimizer_db.get("username", "root")
+    password = inventory_optimizer_db.get("password", "")
+    host = inventory_optimizer_db.get("host", "localhost")
+    port = inventory_optimizer_db.get("port", 3306)
+    database = inventory_optimizer_db.get("database", "")
 
     SQLALCHEMY_DATABASE_URI = (
         f"{type}://{username}:{password}@{host}:{port}/{database}"

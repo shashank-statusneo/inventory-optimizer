@@ -1,30 +1,34 @@
 DATABASE:
-  app_auth:
+  inventory_optimizer:
     type: mysql
     host: 127.0.0.1
-    # username: root
-    username: migrate_app_auth
-    # password: password
-    password: auth_password
+    username: root
+    password: password
     port: 3306
-    database: app_auth
-  binds:
-    app_auth:
-      type: mysql
-      host: 127.0.0.1
-      # username: root
-      username: migrate_app_auth
-      # password: password
-      password: auth_password
-      port: 3306
-      database: app_auth
-    app_meta:
-      type: mysql
-      host: 127.0.0.1
-      username: root
-      password: password
-      port: 3306
-      database: app_meta
+    database: inventory_optimizer
+  # binds:
+  #   app_auth:
+  #     type: mysql
+  #     host: 127.0.0.1
+  #     username: root
+  #     password: password
+  #     port: 3306
+  #     database: app_auth
+  #   app_meta:
+  #     type: mysql
+  #     host: 127.0.0.1
+  #     username: root
+  #     password: password
+  #     port: 3306
+  #     database: app_meta
+  #   inventory_optimizer:
+  #     type: mysql
+  #     host: 127.0.0.1
+  #     username: root
+  #     password: password
+  #     port: 3306
+  #     database: inventory_optimizer
+
 
 # Server: sql12.freemysqlhosting.net
 # Name: sql12616687

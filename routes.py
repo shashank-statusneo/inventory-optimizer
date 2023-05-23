@@ -10,6 +10,8 @@ from modules.users.controller import (
 )
 
 from modules.orders.controller import order_api as order_namespace
+from modules.inventory_optimizer.controller import demand_forecast_api as demand_forecast_namespace
+from modules.inventory_optimizer.controller import vendor_api as vendor_namespace
 
 
 blueprint = Blueprint("api", __name__)
@@ -33,3 +35,7 @@ api.add_namespace(login_namespace)
 api.add_namespace(logout_namespace)
 
 api.add_namespace(order_namespace)
+
+api.add_namespace(demand_forecast_namespace)
+
+api.add_namespace(vendor_namespace)

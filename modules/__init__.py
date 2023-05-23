@@ -128,47 +128,26 @@ def register_cli_commands(app):
     def initialize_db():
         """Initializing database migrations."""
         echo("Initializing database migrations!")
-        init(multidb=True)
+        init()
 
     @app.cli.command("migrate_db")
-    @click.option(
-        "--db",
-        required=True,
-        type=click.Choice(["app_auth", "app_meta"], case_sensitive=True),
-        help="Name of database that has to be migrated",
-    )
-    @click.option(
-        "--t",
-        required=False,
-        type=str,
-        help="Migration Table",
-    )
     @click.option(
         "--m",
         required=True,
         type=str,
         help="Migration message",
     )
-    def migrate_db(db, m, t):
+    def migrate_db(m):
         """Prepare database migration scripts."""
         echo("Preparing database migration scripts!")
-        stamp(tag=db)
-        x_arg = [db]
-        if t:
-            x_arg.append(t)
-        migrate(message=m, x_arg=x_arg)
+        stamp()
+        migrate(message=m)
 
     @app.cli.command("upgrade_db")
-    @click.option(
-        "--db",
-        required=True,
-        type=click.Choice(["app_auth", "app_meta"], case_sensitive=True),
-        help="Name of database that has to be migrated",
-    )
-    def upgrade_db(db):
+    def upgrade_db():
         """Upgrading database migrations."""
         echo("Upgrading database migrations!")
-        upgrade(x_arg=db)
+        upgrade()
 
 
 def initialize_extensions(app):

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.0.2 (Python 3.10.11 on win32)" generated="20230524 12:33:16.141" rpa="false" schemaversion="3">
+<suite id="s1" name="Connection Test" source="C:\Users\ShashankAgarwal\OneDrive - StatusNeo\Desktop\Code\inventory-optimizer\robot_tests\database_tests\connection_test.robot">
+<test id="s1-t1" name="Verify Table Exisits in Database" line="14">
+<kw name="Connect DB">
+<kw name="Connect To Database" library="DatabaseLibrary">
+<arg>pymysql</arg>
+<arg>${DBName}</arg>
+<arg>${DBUser}</arg>
+<arg>${DBPassword}</arg>
+<arg>${DBHost}</arg>
+<arg>${DBPort}</arg>
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to
+connect to the database using `dbName`, `dbUsername`, and `dbPassword`.</doc>
+<msg timestamp="20230524 12:33:16.347" level="INFO">Connecting using : pymysql.connect(db=app_auth, user=root, passwd=password, host=127.0.0.1, port=3306, charset=None) </msg>
+<status status="PASS" starttime="20230524 12:33:16.254" endtime="20230524 12:33:16.364"/>
+</kw>
+<status status="PASS" starttime="20230524 12:33:16.254" endtime="20230524 12:33:16.365"/>
+</kw>
+<kw name="Table Must Exist" library="DatabaseLibrary">
+<arg>users</arg>
+<doc>Check if the table given exists in the database. Set optional input `sansTran` to True to run command without an
+explicit transaction commit or rollback.</doc>
+<msg timestamp="20230524 12:33:16.366" level="INFO">Executing : Table Must Exist  |  users </msg>
+<msg timestamp="20230524 12:33:16.366" level="INFO">Executing : Row Count  |  SELECT * FROM information_schema.tables WHERE table_name='users' </msg>
+<status status="PASS" starttime="20230524 12:33:16.365" endtime="20230524 12:33:16.367"/>
+</kw>
+<kw name="Disconnect DB">
+<kw name="Disconnect From Database" library="DatabaseLibrary">
+<doc>Disconnects from the database.</doc>
+<msg timestamp="20230524 12:33:16.367" level="INFO">Executing : Disconnect From Database</msg>
+<status status="PASS" starttime="20230524 12:33:16.367" endtime="20230524 12:33:16.367"/>
+</kw>
+<status status="PASS" starttime="20230524 12:33:16.367" endtime="20230524 12:33:16.367"/>
+</kw>
+<status status="PASS" starttime="20230524 12:33:16.250" endtime="20230524 12:33:16.367"/>
+</test>
+<status status="PASS" starttime="20230524 12:33:16.147" endtime="20230524 12:33:16.373"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Connection Test">Connection Test</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

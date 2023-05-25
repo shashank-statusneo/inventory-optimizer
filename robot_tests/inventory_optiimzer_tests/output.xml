@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.0.2 (Python 3.10.11 on win32)" generated="20230524 12:01:07.969" rpa="false" schemaversion="3">
+<suite id="s1" name="Demand Forecast" source="C:\Users\ShashankAgarwal\OneDrive - StatusNeo\Desktop\Code\inventory-optimizer\inventory_optiimzer_tests\demand_forecast.robot">
+<test id="s1-t1" name="Quick Google Get Response Test" line="15">
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>https://www.google.com</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20230524 12:01:09.116" level="INFO">GET Request : url=https://www.google.com/ 
+ path_url=/ 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20230524 12:01:09.116" level="INFO">GET Response : url=https://www.google.com/ 
+ status=200, reason=OK 
+ headers={'Date': 'Wed, 24 May 2023 06:31:08 GMT', 'Expires': '-1', 'Cache-Control': 'private, max-age=0', 'Content-Type': 'text/html; charset=ISO-8859-1', 'Content-Security-Policy-Report-Only': "object-src 'none';base-uri 'self';script-src 'nonce-Z18Z6U1tHy51RUqHg7kl6A' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp", 'P3P': 'CP="This is not a P3P policy! See g.co/p3phelp for more info."', 'Content-Encoding': 'gzip', 'Server': 'gws', 'X-XSS-Protection': '0', 'X-Frame-Options': 'SAMEORIGIN', 'Set-Cookie': '1P_JAR=2023-05-24-06; expires=Fri, 23-Jun-2023 06:31:08 GMT; path=/; domain=.google.com; Secure, AEC=AUEFqZfroQGFjwYEgBV0CFGvz12jisBguzUUlhuoJLM7_exQZwPm5FnuRg; expires=Mon, 20-Nov-2023 06:31:08 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax, NID=511=XMEJuTU5wNE-oU57dGcFEPOJSDbSJ6FNuvSd3T0am4VT1xH540IcFXvjJB4uoX27clQ2Qi92INquII_4yvstDYEJ2pSit7pnCsuGViiwDWFj3h8QUFnYDgMju2cSoIG3Oe99nJqbFR8aXGTjUHVn__Ke4saX-wGovMpaQDeNRcs; expires=Thu, 23-Nov-2023 06:31:08 GMT; path=/; domain=.google.com; HttpOnly', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000', 'Transfer-Encoding': 'chunked'} 
+ body=&lt;!doctype html&gt;&lt;html itemscope="" itemtype="http://schema.org/WebPage" lang="en-IN"&gt;&lt;head&gt;&lt;meta content="text/html; charset=UTF-8" http-equiv="Content-Type"&gt;&lt;meta content="/images/branding/googleg/1x/googleg_standard_color_128dp.png" itemprop="image"&gt;&lt;title&gt;Google&lt;/title&gt;&lt;script nonce="Z18Z6U1tHy51RUqHg7kl6A"&gt;(function(){var _g={kEI:'LK9tZO-nKYDJ1sQPtKmEuAw',kEXPI:'0,791103,568306,6058,207,2415,2389,2316,383,246,5,1129120,1197750,380741,16114,28684,22430,1362,12320,17579,4998,13228,3847,38444,887,1985,2891,4140,4209,3405,606,30668,19391,10631,16335,1014,1,16916,2652,4,1528,2304,29062,13064,11443,2216,4437,16786,5803,2554,4094,7596,1,42154,2,14022,2558,157,21266,1758,5679,1020,31123,4568,6255,23421,1252,5835,12141,2826,4333,8,7476,445,2,2,1,6959,3997,13670,2006,8155,7381,2,15967,873,19634,9,1920,9779,5864,36595,2007,18191,20137,14,82,12151,1181,6874,4069,4308,3787,15752,4824,3030,6111,9705,1804,7734,2738,2884,9481,4255,6005,2195,8221,542,2365,1138,1159,2480,5468,814,78,867,4139,1140,3613,3731,427,243,261,359,1098,1981,3356,3215,209,343,196,1923,115,1272,1163,1,597,475,12,3884,782,942,1131,537,8,3,13,289,203,3,3,9,874,2797,442,71,572,221,6,92,44,214,51,86,3,45,457,848,602,254,118,1023,198,534,21,1,1978,5200633,5556,663,49,134,329,93,46,13,23,49,2,8798154,3311,141,801,19729,1,1,346,5997,8,27,65,95,8,6,3,7,7,7,4,12,21,23944218,396,181,4041565,1964,16672,2894,6250,14712,4911,314,1675,744,1408440,260490,23499462,85,93,134,308,1193,596,505,2,258,292,766,252,2,1152,1,507,5,195,455,680,264,2038,726,171,222,1323,447,20,426,1380,311,1,15,8,3,228,716,597,176,86,123,6,352,271,206,19,106,4,91,52,16,923,9,639,89,99,72,61,127,301,5,333,656,6,305,1031,247,722,229,455,221,269,14,449,76,42,50,993,1,232,35,200,167,81,2,296,1,208,39,148,162,76,275,298,191,1504,37,34,589,314,15,72,74',kBL:'Xpq5',kOPI:89978449};if (!window.google || !window.google.stvsc){window.google = _g;}
+})();(function(){google.sn='webhp';google.kHL='en-IN';})();(function(){
+var h=this||self;function l(){return void 0!==window.google&amp;&amp;void 0!==window.google.kOPI&amp;&amp;0!==window.google.kOPI?window.google.kOPI:null};var m,n=[];function p(a){for(var b;a&amp;&amp;(!a.getAttribute||!(b=a.getAttribute("eid")));)a=a.parentNode;return b||m}function q(a){for(var b=null;a&amp;&amp;(!a.getAttribute||!(b=a.getAttribute("leid")));)a=a.parentNode;return b}function r(a){/^http:/i.test(a)&amp;&amp;"https:"===window.location.protocol&amp;&amp;(google.ml&amp;&amp;google.ml(Error("a"),!1,{src:a,glmm:1}),a="");return a}
+function t(a,b,c,d,k){var e="";-1===b.search("&amp;ei=")&amp;&amp;(e="&amp;ei="+p(d),-1===b.search("&amp;lei=")&amp;&amp;(d=q(d))&amp;&amp;(e+="&amp;lei="+d));d="";var g=-1===b.search("&amp;cshid=")&amp;&amp;"slh"!==a,f=[];f.push(["zx",Date.now().toString()]);h._cshid&amp;&amp;g&amp;&amp;f.push(["cshid",h._cshid]);c=c();null!=c&amp;&amp;f.push(["opi",c.toString()]);for(c=0;c&lt;f.length;c++){if(0===c||0&lt;c)d+="&amp;";d+=f[c][0]+"="+f[c][1]}return"/"+(k||"gen_204")+"?atyp=i&amp;ct="+String(a)+"&amp;cad="+(b+e+d)};m=google.kEI;google.getEI=p;google.getLEI=q;google.ml=function(){return null};google.log=function(a,b,c,d,k,e){e=void 0===e?l:e;c||(c=t(a,b,e,d,k));if(c=r(c)){a=new Image;var g=n.length;n[g]=a;a.onerror=a.onload=a.onabort=function(){delete n[g]};a.src=c}};google.logUrl=function(a,b){b=void 0===b?l:b;return t("",a,b)};}).call(this);(function(){google.y={};google.sy=[];google.x=function(a,b){if(a)var c=a.id;else{do c=Math.random();while(google.y[c])}google.y[c]=[a,b];return!1};google.sx=function(a){google.sy.push(a)};google.lm=[];google.plm=function(a){google.lm.push.apply(google.lm,a)};google.lq=[];google.load=function(a,b,c){google.lq.push([[a],b,c])};google.loadAll=function(a,b){google.lq.push([a,b])};google.bx=!1;google.lx=function(){};}).call(this);google.f={};(function(){
+document.documentElement.addEventListener("submit",function(b){var a;if(a=b.target){var c=a.getAttribute("data-submitfalse");a="1"===c||"q"===c&amp;&amp;!a.elements.q.value?!0:!1}else a=!1;a&amp;&amp;(b.preventDefault(),b.stopPropagation())},!0);document.documentElement.addEventListener("click",function(b){var a;a:{for(a=b.target;a&amp;&amp;a!==document.documentElement;a=a.parentElement)if("A"===a.tagName){a="1"===a.getAttribute("data-nohref");break a}a=!1}a&amp;&amp;b.preventDefault()},!0);}).call(this);&lt;/script&gt;&lt;style&gt;#gbar,#guser{font-size:13px;padding-top:1px !important;}#gbar{height:22px}#guser{padding-bottom:7px !important;text-align:right}.gbh,.gbd{border-top:1px solid #c9d7f1;font-size:1px}.gbh{height:0;position:absolute;top:24px;width:100%}@media all{.gb1{height:22px;margin-right:.5em;vertical-align:top}#gbar{float:left}}a.gb1,a.gb4{text-decoration:underline !important}a.gb1,a.gb4{color:#00c !important}.gbi .gb4{color:#dd8e27 !important}.gbf .gb4{color:#900 !important}
+&lt;/style&gt;&lt;style&gt;body,td,a,p,.h{font-family:arial,sans-serif}body{margin:0;overflow-y:scroll}#gog{padding:3px 8px 0}td{line-height:.8em}.gac_m td{line-height:17px}form{margin-bottom:20px}.h{color:#1558d6}em{font-weight:bold;font-style:normal}.lst{height:25px;width:496px}.gsfi,.lst{font:18px arial,sans-serif}.gsfs{font:17px arial,sans-serif}.ds{display:inline-box;display:inline-block;margin:3px 0 4px;margin-left:4px}input{font-family:inherit}body{background:#fff;color:#000}a{color:#4b11a8;text-decoration:none}a:hover,a:active{text-decoration:underline}.fl a{color:#1558d6}a:visited{color:#4b11a8}.sblc{padding-top:5px}.sblc a{display:block;margin:2px 0;margin-left:13px;font-size:11px}.lsbb{background:#f8f9fa;border:solid 1px;border-color:#dadce0 #70757a #70757a #dadce0;height:30px}.lsbb{display:block}#WqQANb a{display:inline-block;margin:0 12px}.lsb{background:url(/images/nav_logo229.png) 0 -261px repeat-x;color:#000;border:none;cursor:pointer;height:30px;margin:0;outline:0;font:15px arial,sans-serif;vertical-align:top}.lsb:active{background:#dadce0}.lst:focus{outline:none}&lt;/style&gt;&lt;script nonce="Z18Z6U1tHy51RUqHg7kl6A"&gt;(function(){window.google.erd={jsr:1,bv:1799,de:true};
+var h=this||self;var k,l=null!=(k=h.mei)?k:1,n,p=null!=(n=h.sdo)?n:!0,q=0,r,t=google.erd,v=t.jsr;google.ml=function(a,b,d,m,e){e=void 0===e?2:e;b&amp;&amp;(r=a&amp;&amp;a.message);if(google.dl)return google.dl(a,e,d),null;if(0&gt;v){window.console&amp;&amp;console.error(a,d);if(-2===v)throw a;b=!1}else b=!a||!a.message||"Error loading script"===a.message||q&gt;=l&amp;&amp;!m?!1:!0;if(!b)return null;q++;d=d||{};b=encodeURIComponent;var c="/gen_204?atyp=i&amp;ei="+b(google.kEI);google.kEXPI&amp;&amp;(c+="&amp;jexpid="+b(google.kEXPI));c+="&amp;srcpg="+b(google.sn)+"&amp;jsr="+b(t.jsr)+"&amp;bver="+b(t.bv);var f=a.lineNumber;void 0!==f&amp;&amp;(c+="&amp;line="+f);var g=
+a.fileName;g&amp;&amp;(0&lt;g.indexOf("-extension:/")&amp;&amp;(e=3),c+="&amp;script="+b(g),f&amp;&amp;g===window.location.href&amp;&amp;(f=document.documentElement.outerHTML.split("\n")[f],c+="&amp;cad="+b(f?f.substring(0,300):"No script found.")));c+="&amp;jsel="+e;for(var u in d)c+="&amp;",c+=b(u),c+="=",c+=b(d[u]);c=c+"&amp;emsg="+b(a.name+": "+a.message);c=c+"&amp;jsst="+b(a.stack||"N/A");12288&lt;=c.length&amp;&amp;(c=c.substr(0,12288));a=c;m||google.log(0,"",a);return a};window.onerror=function(a,b,d,m,e){r!==a&amp;&amp;(a=e instanceof Error?e:Error(a),void 0===d||"lineNumber"in a||(a.lineNumber=d),void 0===b||"fileName"in a||(a.fileName=b),google.ml(a,!1,void 0,!1,"SyntaxError"===a.name||"SyntaxError"===a.message.substring(0,11)||-1!==a.message.indexOf("Script error")?3:0));r=null;p&amp;&amp;q&gt;=l&amp;&amp;(window.onerror=null)};})();&lt;/script&gt;&lt;/head&gt;&lt;body bgcolor="#fff"&gt;&lt;script nonce="Z18Z6U1tHy51RUqHg7kl6A"&gt;(function(){var src='/images/nav_logo229.png';var iesg=false;document.body.onload = function(){window.n &amp;&amp; window.n();if (document.images){new Image().src=src;}
+if (!iesg){document.f&amp;&amp;document.f.q.focus();document.gbqf&amp;&amp;document.gbqf.q.focus();}
+}
+})();&lt;/script&gt;&lt;div id="mngb"&gt;&lt;div id=gbar&gt;&lt;nobr&gt;&lt;b class=gb1&gt;Search&lt;/b&gt; &lt;a class=gb1 href="https://www.google.co.in/imghp?hl=en&amp;tab=wi"&gt;Images&lt;/a&gt; &lt;a class=gb1 href="https://maps.google.co.in/maps?hl=en&amp;tab=wl"&gt;Maps&lt;/a&gt; &lt;a class=gb1 href="https://play.google.com/?hl=en&amp;tab=w8"&gt;Play&lt;/a&gt; &lt;a class=gb1 href="https://www.youtube.com/?tab=w1"&gt;YouTube&lt;/a&gt; &lt;a class=gb1 href="https://news.google.com/?tab=wn"&gt;News&lt;/a&gt; &lt;a class=gb1 href="https://mail.google.com/mail/?tab=wm"&gt;Gmail&lt;/a&gt; &lt;a class=gb1 href="https://drive.google.com/?tab=wo"&gt;Drive&lt;/a&gt; &lt;a class=gb1 style="text-decoration:none" href="https://www.google.co.in/intl/en/about/products?tab=wh"&gt;&lt;u&gt;More&lt;/u&gt; &amp;raquo;&lt;/a&gt;&lt;/nobr&gt;&lt;/div&gt;&lt;div id=guser width=100%&gt;&lt;nobr&gt;&lt;span id=gbn class=gbi&gt;&lt;/span&gt;&lt;span id=gbf class=gbf&gt;&lt;/span&gt;&lt;span id=gbe&gt;&lt;/span&gt;&lt;a href="http://www.google.co.in/history/optout?hl=en" class=gb4&gt;Web History&lt;/a&gt; | &lt;a  href="/preferences?hl=en" class=gb4&gt;Settings&lt;/a&gt; | &lt;a target=_top id=gb_70 href="https://accounts.google.com/ServiceLogin?hl=en&amp;passive=true&amp;continue=https://www.google.com/&amp;ec=GAZAAQ" class=gb4&gt;Sign in&lt;/a&gt;&lt;/nobr&gt;&lt;/div&gt;&lt;div class=gbh style=left:0&gt;&lt;/div&gt;&lt;div class=gbh style=right:0&gt;&lt;/div&gt;&lt;/div&gt;&lt;center&gt;&lt;br clear="all" id="lgpd"&gt;&lt;div id="lga"&gt;&lt;img alt="Google" height="92" src="/images/branding/googlelogo/1x/googlelogo_white_background_color_272x92dp.png" style="padding:28px 0 14px" width="272" id="hplogo"&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;&lt;form action="/search" name="f"&gt;&lt;table cellpadding="0" cellspacing="0"&gt;&lt;tr valign="top"&gt;&lt;td width="25%"&gt;&amp;nbsp;&lt;/td&gt;&lt;td align="center" nowrap=""&gt;&lt;input name="ie" value="ISO-8859-1" type="hidden"&gt;&lt;input value="en-IN" name="hl" type="hidden"&gt;&lt;input name="source" type="hidden" value="hp"&gt;&lt;input name="biw" type="hidden"&gt;&lt;input name="bih" type="hidden"&gt;&lt;div class="ds" style="height:32px;margin:4px 0"&gt;&lt;input class="lst" style="margin:0;padding:5px 8px 0 6px;vertical-align:top;color:#000" autocomplete="off" value="" title="Google Search" maxlength="2048" name="q" size="57"&gt;&lt;/div&gt;&lt;br style="line-height:0"&gt;&lt;span class="ds"&gt;&lt;span class="lsbb"&gt;&lt;input class="lsb" value="Google Search" name="btnG" type="submit"&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="ds"&gt;&lt;span class="lsbb"&gt;&lt;input class="lsb" id="tsuid_1" value="I'm Feeling Lucky" name="btnI" type="submit"&gt;&lt;script nonce="Z18Z6U1tHy51RUqHg7kl6A"&gt;(function(){var id='tsuid_1';document.getElementById(id).onclick = function(){if (this.form.q.value){this.checked = 1;if (this.form.iflsig)this.form.iflsig.disabled = false;}
+else top.location='/doodles/';};})();&lt;/script&gt;&lt;inpu... (set the log level to DEBUG or TRACE to see the full content) 
+ </msg>
+<msg timestamp="20230524 12:01:09.116" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230524 12:01:08.402" endtime="20230524 12:01:09.116"/>
+</kw>
+<status status="PASS" starttime="20230524 12:01:08.402" endtime="20230524 12:01:09.122"/>
+</test>
+<test id="s1-t2" name="Flask App Ping Response Test" line="18">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>FLASK_SESSION</arg>
+<arg>${BASE_URL}</arg>
+<arg>${headers}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20230524 12:01:09.122" level="INFO">Creating Session using : alias=FLASK_SESSION, url=http://127.0.0.1:5000, headers={'Content-Type': 'multipart/form-data'},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20230524 12:01:09.122" endtime="20230524 12:01:09.122"/>
+</kw>
+<kw name="GET On Session" library="RequestsLibrary">
+<var>${PING_RESPONSE}</var>
+<arg>FLASK_SESSION</arg>
+<arg>/ping</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20230524 12:01:09.138" level="INFO">GET Request : url=http://127.0.0.1:5000/ping 
+ path_url=/ping 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'multipart/form-data'} 
+ body=None 
+ </msg>
+<msg timestamp="20230524 12:01:09.138" level="INFO">GET Response : url=http://127.0.0.1:5000/ping 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/2.2.3 Python/3.10.11', 'Date': 'Wed, 24 May 2023 06:31:09 GMT', 'content-type': 'application/json', 'Content-Length': '50', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body={"success": true, "env": {"RUN_FLASK_ENV": "dev"}} 
+ </msg>
+<msg timestamp="20230524 12:01:09.138" level="INFO">${PING_RESPONSE} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230524 12:01:09.122" endtime="20230524 12:01:09.138"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${PING_RESPONSE}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230524 12:01:09.146" endtime="20230524 12:01:09.146"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${STATUS_CODE}</var>
+<arg>${PING_RESPONSE.status_code}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20230524 12:01:09.146" level="INFO">${STATUS_CODE} = 200</msg>
+<status status="PASS" starttime="20230524 12:01:09.146" endtime="20230524 12:01:09.146"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${STATUS_CODE}</arg>
+<arg>200</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20230524 12:01:09.146" endtime="20230524 12:01:09.146"/>
+</kw>
+<status status="PASS" starttime="20230524 12:01:09.122" endtime="20230524 12:01:09.162"/>
+</test>
+<test id="s1-t3" name="Create a new Demand Forecast Upload" line="25">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>FLASK_SESSION</arg>
+<arg>${BASE_URL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20230524 12:01:09.167" level="INFO">Creating Session using : alias=FLASK_SESSION, url=http://127.0.0.1:5000, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20230524 12:01:09.165" endtime="20230524 12:01:09.172"/>
+</kw>
+<kw name="POST On Session" library="RequestsLibrary">
+<var>${UPLOAD_DEMAND_FORECAST_RESPONSE}</var>
+<arg>FLASK_SESSION</arg>
+<arg>/demand_forecast</arg>
+<arg>"file": ${demand_forecast_file}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<msg timestamp="20230524 12:01:09.205" level="INFO">POST Request : url=http://127.0.0.1:5000/demand_forecast (redirected) 
+ path_url=/demand_forecast 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '113'} 
+ body="file": Get file C:UsersShashankAgarwalOneDrive - StatusNeoDesktopCodeinventory-optimizerdemand_forecast_data.csv 
+ </msg>
+<msg timestamp="20230524 12:01:09.205" level="INFO">POST Response : url=http://127.0.0.1:5000/demand_forecast/ 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/2.2.3 Python/3.10.11', 'Date': 'Wed, 24 May 2023 06:31:09 GMT', 'Content-Type': 'application/json', 'Content-Length': '40', 'Access-Control-Allow-Origin': '*', 'Connection': 'close'} 
+ body={
+    "success": true,
+    "data": []
+}
+ 
+ </msg>
+<msg timestamp="20230524 12:01:09.205" level="INFO">${UPLOAD_DEMAND_FORECAST_RESPONSE} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230524 12:01:09.172" endtime="20230524 12:01:09.205"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${UPLOAD_DEMAND_FORECAST_RESPONSE}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230524 12:01:09.214" endtime="20230524 12:01:09.214"/>
+</kw>
+<status status="PASS" starttime="20230524 12:01:09.165" endtime="20230524 12:01:09.214"/>
+</test>
+<status status="PASS" starttime="20230524 12:01:07.985" endtime="20230524 12:01:09.219"/>
+</suite>
+<statistics>
+<total>
+<stat pass="3" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="3" fail="0" skip="0" id="s1" name="Demand Forecast">Demand Forecast</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

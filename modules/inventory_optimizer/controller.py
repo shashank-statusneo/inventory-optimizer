@@ -2,10 +2,14 @@ import logging
 
 from flask import request
 from flask_restx import Resource
-from json import loads
-
-from modules.inventory_optimizer.schema_validator import AddDemandForecastSchema, AddVendorSchema
-from modules.inventory_optimizer.service import create_new_demand_forecast, create_new_vendor
+from modules.inventory_optimizer.schema_validator import (
+    AddDemandForecastSchema,
+    AddVendorSchema,
+)
+from modules.inventory_optimizer.service import (
+    create_new_demand_forecast,
+    create_new_vendor,
+)
 
 demand_forecast_api = AddDemandForecastSchema.api
 vendor_api = AddVendorSchema.api
@@ -30,7 +34,6 @@ class DemandForecast(Resource):
         logger.info("in Demand Forecast module post")
 
         request_data = request.files
-
         return create_new_demand_forecast(request_data)
 
 

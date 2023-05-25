@@ -33,15 +33,16 @@ def create_new_demand_forecast(data):
 
     response = {"success": True, "data": []}
 
+    # return response, 200
+
     raw_file = data.get("file")
 
-    file_data = csv_to_dict(
-        csv_file=raw_file)
+    file_data = csv_to_dict(csv_file=raw_file)
 
     file_data = file_data[0]
 
     new_demand_forecast = DemandForecast(
-        weekend=datetime.strptime(file_data.get("weekend"), '%d/%m/%y'),
+        weekend=datetime.strptime(file_data.get("weekend"), "%d/%m/%y"),
         month_no=file_data.get("month_no"),
         month_week=file_data.get("month_week"),
         article=file_data.get("article"),
@@ -55,13 +56,10 @@ def create_new_demand_forecast(data):
         file_name=raw_file.filename,
         file_type="demand_forecast",
         file_ext=raw_file.mimetype,
-        file_object=raw_file
+        file_object=raw_file,
     )
 
-    response["data"] = {
-        "id": new_demand_forecast.id,
-        "master_id": master_id
-    }
+    response["data"] = {"id": new_demand_forecast.id, "master_id": master_id}
     response["message"] = "Demand Forecast Created Successfully"
 
     return response, 201
@@ -88,8 +86,7 @@ def create_new_vendor(data):
 
     raw_file = data.get("file")
 
-    file_data = csv_to_dict(
-        csv_file=raw_file)
+    file_data = csv_to_dict(csv_file=raw_file)
 
     file_data = file_data[0]
 
@@ -109,19 +106,18 @@ def create_new_vendor(data):
         file_name=raw_file.filename,
         file_type="demand_forecast",
         file_ext=raw_file.mimetype,
-        file_object=raw_file
+        file_object=raw_file,
     )
 
-    response["data"] = {
-        "id": new_vendor.id,
-        "master_id": master_id
-    }
+    response["data"] = {"id": new_vendor.id, "master_id": master_id}
     response["message"] = "Vendor Created Successfully"
 
     return response, 201
 
 
-def create_new_master_data(file_id: int, file_name: str, file_type: str, file_ext: str, file_object: bytes):
+def create_new_master_data(
+    file_id: int, file_name: str, file_type: str, file_ext: str, file_object: bytes
+):
     """
     Creates a new master data
 
@@ -141,7 +137,7 @@ def create_new_master_data(file_id: int, file_name: str, file_type: str, file_ex
         file_name=file_name,
         file_type=file_type,
         file_ext=file_ext,
-        file_object=file_object
+        file_object=file_object,
     )
 
     save_changes(new_master_data)
